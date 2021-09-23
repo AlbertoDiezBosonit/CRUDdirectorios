@@ -22,7 +22,7 @@ public class Controlador {
 
     @PostMapping(value="/addPersona")
     @Transactional(rollbackOn = Exception.class)
-    public PersonaOutputDto addPersona(@ModelAttribute  /*@RequestBody*/ PersonaInputDto persona ) throws Exception {
+    public PersonaOutputDto addPersona(/*@ModelAttribute*/  @RequestBody PersonaInputDto persona ) throws Exception {
         PersonaOutputDto retorno=personaService.insertaPersona(persona);
         if( retorno!=null)
             return  retorno;
