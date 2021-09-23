@@ -1,4 +1,4 @@
-package com.example.demo.persona.infraestructure;
+package com.example.demo.persona.infraestructure.exception;
 
 import java.util.Date;
 

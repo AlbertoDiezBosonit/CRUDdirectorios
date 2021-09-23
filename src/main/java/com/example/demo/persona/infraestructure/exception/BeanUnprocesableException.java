@@ -1,4 +1,4 @@
-package com.example.demo.persona.infraestructure;
+package com.example.demo.persona.infraestructure.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

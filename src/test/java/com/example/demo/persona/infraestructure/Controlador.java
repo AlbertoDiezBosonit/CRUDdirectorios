@@ -5,6 +5,7 @@ package com.example.demo.persona.infraestructure;
 import com.example.demo.persona.application.port.PersonaServicePort;
 import com.example.demo.persona.infraestructure.dto.PersonaInputDto;
 import com.example.demo.persona.infraestructure.dto.PersonaOutputDto;
+import com.example.demo.persona.infraestructure.exception.BeanNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +35,7 @@ public class Controlador {
     public PersonaOutputDto retorna(@PathVariable Long id){
         PersonaOutputDto p=personaService.retornaPorIdOutput(id);
         if(p==null)
-            throw new BeanNotFoundException("No se ha encontrado ningún registro con esa id");
+            throw new com.example.demo.persona.infraestructure.exception.BeanNotFoundException("No se ha encontrado ningún registro con esa id");
         return p;
     }
 
@@ -59,7 +60,7 @@ public class Controlador {
         PersonaOutputDto retorno=personaService.actualizaPersona(id,persona);
         if(retorno!=null)
             return retorno;
-        throw new BeanNotFoundException("No se ha encontrado ningún registro con esa id para ser actualizado");
+        throw new com.example.demo.persona.infraestructure.exception.BeanNotFoundException("No se ha encontrado ningún registro con esa id para ser actualizado");
     }
 
     @DeleteMapping("/{id}")

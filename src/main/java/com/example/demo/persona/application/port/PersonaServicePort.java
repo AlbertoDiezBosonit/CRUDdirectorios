@@ -16,15 +16,8 @@ public interface PersonaServicePort {
     boolean validaPersona(Persona p);
 
     PersonaOutputDto insertaPersona(PersonaInputDto p);
-    PersonaOutputDto insertaPersona(Persona p);
-
-    void eliminaPersona(Persona p);
-
-    void eliminaPersona(PersonaInputDto p);
 
     boolean eliminaPersonaPorId(Long id);
-
-    PersonaOutputDto actualizaPersona(Persona p);
 
     PersonaOutputDto actualizaPersona(Long id,PersonaInputDto p);
 

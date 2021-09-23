@@ -3,7 +3,8 @@ package com.example.demo.persona.application;
 import com.example.demo.persona.application.port.PersonaServicePort;
 import com.example.demo.persona.domain.Persona;
 import com.example.demo.persona.domain.PersonaRepository;
-import com.example.demo.persona.infraestructure.BeanUnprocesableException;
+import com.example.demo.persona.infraestructure.exception.BeanNotFoundException;
+import com.example.demo.persona.infraestructure.exception.BeanUnprocesableException;
 import com.example.demo.persona.infraestructure.dto.PersonaInputDto;
 import com.example.demo.persona.infraestructure.dto.PersonaOutputDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,9 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     }
 
     @Override
-    public PersonaOutputDto insertaPersona(Persona p) {
+    public PersonaOutputDto insertaPersona(PersonaInputDto pi) {
+        // vamos a eliminar el id para insertarlo en la base de datos
+        Persona p=pi.toPersona();
         p.setActive("activo");
         p.setCreated_date(new java.sql.Date(new java.util.Date().getTime()));
         if(validaPersona(p)) {
@@ -52,13 +55,6 @@ public class PersonaServicePortImpl implements PersonaServicePort {
             return new PersonaOutputDto(p);
         }
         return null;
-
-    }
-
-    @Override
-    public PersonaOutputDto insertaPersona(PersonaInputDto p) {
-        // vamos a eliminar el id para insertarlo en la base de datos
-        return insertaPersona(p.toPersona());
     }
 
     @Override
@@ -68,33 +64,19 @@ public class PersonaServicePortImpl implements PersonaServicePort {
             persona = personaRepository.getById(id);
             persona=p.toPersona(persona);
         }catch (EntityNotFoundException e){
-            return null;
+            throw new BeanNotFoundException("No se ha encontrado la persona a actualizar");
         }
 
         //persona.setCreated_date(new java.sql.Date(new java.util.Date().getTime()));
-        return actualizaPersona(persona);
-        //return persona==personaRepository.save(persona);
-    }
-
-    @Override
-    public  PersonaOutputDto actualizaPersona(Persona p) {
-        p.setActive("true");
-        if(this.validaPersona(p)) {
-            personaRepository.save(p);
-            return new PersonaOutputDto(p);
+        if(this.validaPersona(persona)) {
+            personaRepository.save(persona);
+            return new PersonaOutputDto(persona);
         }
-        return null;
+        throw new BeanNotFoundException("No se ha encontrado la persona a actualizar");
+        // no llegaremos nunca hasta aqui
+
     }
 
-    @Override
-    public void eliminaPersona(Persona p) {
-        personaRepository.delete(p);
-    }
-
-    @Override
-    public void eliminaPersona(PersonaInputDto p) {
-        personaRepository.delete(p.toPersona());
-    }
 
     @Override
     public boolean eliminaPersonaPorId(Long id){
@@ -115,17 +97,12 @@ public class PersonaServicePortImpl implements PersonaServicePort {
 
     @Override
     public List<Persona> listaPersonas() {
-        if(personaRepository !=null)
-            return personaRepository.findAll();
-        return null;
+        return personaRepository.findAll();
     }
 
     @Override
     public List<PersonaOutputDto> listaPersonasOutput(){
-        if(personaRepository !=null) {
-            return personaRepository.findAll().stream().map(p -> new PersonaOutputDto(p)).collect(Collectors.toList());
-        }
-        return null;
+        return personaRepository.findAll().stream().map(p -> new PersonaOutputDto(p)).collect(Collectors.toList());
     }
 
     @Override

@@ -3,7 +3,8 @@ package com.example.demo.persona.application;
 import com.example.demo.persona.application.port.PersonaRepositoryPort;
 import com.example.demo.persona.application.port.PersonaServicePort;
 import com.example.demo.persona.domain.Persona;
-import com.example.demo.persona.infraestructure.BeanUnprocesableException;
+import com.example.demo.persona.infraestructure.exception.BeanNotFoundException;
+import com.example.demo.persona.infraestructure.exception.BeanUnprocesableException;
 import com.example.demo.persona.infraestructure.dto.PersonaInputDto;
 import com.example.demo.persona.infraestructure.dto.PersonaOutputDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,42 +24,35 @@ public class PersonaServicePortImpl implements PersonaServicePort {
 
     @Override
     public boolean validaPersona(Persona p){
-        String mensajeError="";
         if(6> p.getUser().length() || 10<p.getUser().length())
-            mensajeError+="La longitud de User no es la correcta"+System.lineSeparator();
+            throw new BeanUnprocesableException("La longitud de User no es la correcta");
         if(p.getPassword()==null)
-            mensajeError+="No hay mensaje de error"+System.lineSeparator();
+            throw new BeanUnprocesableException("No hay mensaje de error");
         if( p.getName()==null)
-            mensajeError+="No hay nombre"+System.lineSeparator();
+            throw new BeanUnprocesableException("No hay nombre");
         if( p.getCity()==null)
-            mensajeError+="No se ha indicado una ciudad"+System.lineSeparator();
+            throw new BeanUnprocesableException("No se ha indicado una ciudad");
         if( p.getCreated_date()==null)
-            mensajeError+="No se ha aportado una fecha de creación"+System.lineSeparator();
+            throw new BeanUnprocesableException("No se ha aportado una fecha de creación");
         if(!p.getCompany_email().contains("@"))
-            mensajeError+="No se ha aportado un email de empresa correcto"+System.lineSeparator();
+            throw new BeanUnprocesableException("No se ha aportado un email de empresa correcto");
         if(!p.getPersonal_email().contains("@"))
-            mensajeError+="No se ha aportado un email personal correcto"+System.lineSeparator();
-        if(!mensajeError.equals(""))
-            throw new BeanUnprocesableException(mensajeError);
+            throw new BeanUnprocesableException("No se ha aportado un email personal correcto");
         return true;
     }
 
     @Override
-    public PersonaOutputDto insertaPersona(Persona p) {
+    public PersonaOutputDto insertaPersona(PersonaInputDto pi) {
+        // vamos a eliminar el id para insertarlo en la base de datos
+        Persona p=pi.toPersona();
         p.setActive("activo");
         p.setCreated_date(new java.sql.Date(new java.util.Date().getTime()));
         if(validaPersona(p)) {
             personaRepositoryPort.save(p);
             return new PersonaOutputDto(p);
         }
-        return null;
+        throw new BeanUnprocesableException("No se ha podido insertar la persona");
 
-    }
-
-    @Override
-    public PersonaOutputDto insertaPersona(PersonaInputDto p) {
-        // vamos a eliminar el id para insertarlo en la base de datos
-        return insertaPersona(p.toPersona());
     }
 
     @Override
@@ -68,32 +62,16 @@ public class PersonaServicePortImpl implements PersonaServicePort {
             persona = personaRepositoryPort.getById(id);
             persona=p.toPersona(persona);
         }catch (EntityNotFoundException e){
-            return null;
+            throw new BeanNotFoundException("No se ha podido eliminar por que no se ha encontrado");
         }
 
         //persona.setCreated_date(new java.sql.Date(new java.util.Date().getTime()));
-        return actualizaPersona(persona);
-        //return persona==personaRepository.save(persona);
-    }
-
-    @Override
-    public  PersonaOutputDto actualizaPersona(Persona p) {
-        p.setActive("true");
-        if(this.validaPersona(p)) {
-            personaRepositoryPort.save(p);
-            return new PersonaOutputDto(p);
+        if(this.validaPersona(persona)) {
+            personaRepositoryPort.save(persona);
+            return new PersonaOutputDto(persona);
         }
-        return null;
-    }
-
-    @Override
-    public void eliminaPersona(Persona p) {
-        personaRepositoryPort.delete(p);
-    }
-
-    @Override
-    public void eliminaPersona(PersonaInputDto p) {
-        personaRepositoryPort.delete(p.toPersona());
+        throw new BeanNotFoundException("No se ha podido actualizar por que no se ha encontrado");
+        //return persona==personaRepository.save(persona);
     }
 
     @Override
@@ -104,28 +82,20 @@ public class PersonaServicePortImpl implements PersonaServicePort {
                 personaRepositoryPort.delete(p);
                 return true;
             }
-            return false;
+            throw new BeanNotFoundException("No se ha podido eliminar por que no se ha encontrado");
         }catch(EntityNotFoundException e){
-            return false;
+            throw new BeanNotFoundException("No se ha podido eliminar por que no se ha encontrado");
         }
     }
 
-
-
-
     @Override
     public List<Persona> listaPersonas() {
-        if(personaRepositoryPort !=null)
-            return personaRepositoryPort.findAll();
-        return null;
+        return personaRepositoryPort.findAll();
     }
 
     @Override
     public List<PersonaOutputDto> listaPersonasOutput(){
-        if(personaRepositoryPort !=null) {
-            return personaRepositoryPort.findAll().stream().map(p -> new PersonaOutputDto(p)).collect(Collectors.toList());
-        }
-        return null;
+        return personaRepositoryPort.findAll().stream().map(p -> new PersonaOutputDto(p)).collect(Collectors.toList());
     }
 
     @Override
@@ -142,7 +112,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
         if (p!=null && !p.isEmpty()) {
             return new PersonaOutputDto(p.get());
         }
-        return null;
+        throw new BeanNotFoundException("No se ha encontrado registro con esa id");
    }
 
     @Override
