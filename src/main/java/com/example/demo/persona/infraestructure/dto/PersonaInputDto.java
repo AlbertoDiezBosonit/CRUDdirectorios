@@ -1,11 +1,13 @@
 package com.example.demo.persona.infraestructure.dto;
 
 import com.example.demo.persona.domain.Persona;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.sql.Date;
 
 @Data
+@AllArgsConstructor
 public class PersonaInputDto {
     // clase DTO para el tipo persona
 //    Long id; // el input no debe tener un id
