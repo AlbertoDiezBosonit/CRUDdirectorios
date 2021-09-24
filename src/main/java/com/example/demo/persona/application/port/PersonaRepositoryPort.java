@@ -15,5 +15,5 @@ public interface PersonaRepositoryPort extends JpaRepository<Persona,Long> {
     List<Persona> findByName(String name);
 
     List<Persona> findByUser(String user);
-    // así es mas simple
+    // así es mas si mple
 }
