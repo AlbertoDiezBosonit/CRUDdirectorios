@@ -24,8 +24,8 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     @ExceptionHandler(BeanUnprocesableException.class)
     public final ResponseEntity<ExceptionResponse> handleUnprocesableException(BeanUnprocesableException ex, WebRequest request) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
-                request.getDescription(false), HttpStatus.NOT_ACCEPTABLE.getReasonPhrase());
-        return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_ACCEPTABLE);
+                request.getDescription(false), HttpStatus.UNPROCESSABLE_ENTITY.getReasonPhrase());
+        return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
 }
