@@ -19,7 +19,8 @@ import org.springframework.stereotype.Service;
 public class EstudianteInputDto {
 
 
-    Long id_persona;
+    //Long id_persona;
+    String id_persona;
     Long num_hours_week;
     String comments;
     String branch;
@@ -27,7 +28,7 @@ public class EstudianteInputDto {
     public Estudiante toEstudiante() throws NotFoundException{
         Estudiante retorno=new Estudiante();
 
-        Long i=this.id_persona;
+        //Long i=this.id_persona;
 
         retorno.setNum_hours_week(this.getNum_hours_week());
         retorno.setComments(this.getComments());
@@ -41,6 +42,8 @@ public class EstudianteInputDto {
             if (p != null) // si no la encontramos podríamos lanzar una excepcion
                 retorno.setPersona(p);
         }*/
+       // if(this.getId_persona()!=null)
+         //   retorno.getPersona().setId_persona(this.getId_persona());
         if(this.getNum_hours_week()!=null)
             retorno.setNum_hours_week(this.getNum_hours_week());
         if(this.getComments()!=null)

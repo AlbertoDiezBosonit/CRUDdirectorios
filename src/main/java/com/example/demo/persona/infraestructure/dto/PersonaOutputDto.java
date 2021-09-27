@@ -14,7 +14,8 @@ import java.sql.Date;
 public class PersonaOutputDto {
     // clase DTO para el tipo persona
 
-    Long id;
+    //Long id;
+    String id;
     String user ;
     String password ;
     String name ;
@@ -27,8 +28,8 @@ public class PersonaOutputDto {
 
     public PersonaOutputDto(Persona p){
         if(p!=null) {
-            if(p.getId()!=null)
-                this.setId(p.getId());
+            if(p.getId_persona()!=null)
+                this.setId(p.getId_persona());
             this.setUser(p.getUser());
             this.setPassword(p.getPassword());
             this.setName(p.getName());
@@ -44,7 +45,7 @@ public class PersonaOutputDto {
     public Persona toPersona(){
         Persona p=new Persona();
         if(this.getId()!=null)
-            p.setId(this.getId());
+            p.setId_persona(this.getId());
         p.setUser(this.getUser());
         p.setPassword(this.getPassword());
         p.setName(this.getName());
@@ -61,7 +62,7 @@ public class PersonaOutputDto {
         if(p==null)
             return this.toPersona();
         if(this.getId()!=null)
-            p.setId(this.getId());
+            p.setId_persona(this.getId());
         p.setUser(this.getUser());
         p.setPassword(this.getPassword());
         p.setName(this.getName());

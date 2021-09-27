@@ -1,36 +1,28 @@
 package com.example.demo.estudiante.infraestructure.controler;
 
-
 import com.example.demo.estudiante.application.port.EstudianteServicePort;
+import com.example.demo.estudiante.domain.Estudiante;
 import com.example.demo.estudiante.infraestructure.dto.EstudianteInputDto;
 import com.example.demo.estudiante.infraestructure.dto.EstudianteOutputDto;
 import com.example.demo.persona.application.port.PersonaServicePort;
 import com.example.demo.persona.infraestructure.dto.PersonaInputDto;
 import com.example.demo.persona.infraestructure.dto.PersonaOutputDto;
-import javassist.NotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 
+
 @RestController
 @RequestMapping("estudiante")
-public class ControladorInsertarEstudiante {
+public class ControladorActualizarEstudiante {
     @Autowired
     EstudianteServicePort estudianteService;
 
-
-    @PostMapping(value="/addEstudiante")
+    @PutMapping("{id}") // actualizamos la persona, hay que estar atentos a la id
     @Transactional(rollbackOn = Exception.class)
-    public EstudianteOutputDto addEstudiante(@RequestBody EstudianteInputDto estudiante ) throws Exception {
-
-            return estudianteService.insertaEstudiante(estudiante);
-
-        //return null;
-        // se lanza exception si no se puede insertar
+    public EstudianteOutputDto actualizar(@PathVariable /*Long*/String id, /*@ModelAttribute*/@RequestBody EstudianteInputDto estudiante ) throws Exception {
+        return estudianteService.actualizaEstudiante(id,estudiante);
+        // se lanza excepcion si no se encuentra
     }
 }

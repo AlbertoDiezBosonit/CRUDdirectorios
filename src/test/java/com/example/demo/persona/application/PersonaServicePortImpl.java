@@ -58,7 +58,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     }
 
     @Override
-    public  PersonaOutputDto actualizaPersona(Long id,PersonaInputDto p){
+    public  PersonaOutputDto actualizaPersona(/*Long*/String id,PersonaInputDto p){
         Persona persona;
         try {
             persona = personaRepository.getById(id);
@@ -79,7 +79,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
 
 
     @Override
-    public boolean eliminaPersonaPorId(Long id){
+    public boolean eliminaPersonaPorId(/*Long*/String id){
         try {
             Persona p = personaRepository.getById(id);
             if (p.getUser() != null) { // hasta que no se hae un get que no sea del id no salta la excepcion
@@ -106,7 +106,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     }
 
     @Override
-    public Persona retornaPorId(Long id) {
+    public Persona retornaPorId(/*Long*/String id) {
         Optional<Persona> retorno= personaRepository.findById(id);
         if(retorno.isEmpty())
             return null;
@@ -114,7 +114,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     }
 
    @Override
-   public PersonaOutputDto retornaPorIdOutput( Long id){
+   public PersonaOutputDto retornaPorIdOutput( /*Long*/String id){
         Persona p=retornaPorId(id);
         if (p!=null) {
             return new PersonaOutputDto(p);

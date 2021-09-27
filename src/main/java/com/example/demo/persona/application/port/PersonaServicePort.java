@@ -17,17 +17,17 @@ public interface PersonaServicePort {
 
     PersonaOutputDto insertaPersona(PersonaInputDto p);
 
-    boolean eliminaPersonaPorId(Long id);
+    boolean eliminaPersonaPorId(/*Long*/String id);
 
-    PersonaOutputDto actualizaPersona(Long id,PersonaInputDto p);
+    PersonaOutputDto actualizaPersona(/*Long*/String id,PersonaInputDto p);
 
     List<Persona> listaPersonas();
 
     List<PersonaOutputDto> listaPersonasOutput();
 
-    Persona retornaPorId( Long id);
+    Persona retornaPorId( /*Long*/String id);
 
-    PersonaOutputDto retornaPorIdOutput( Long id);
+    PersonaOutputDto retornaPorIdOutput( /*Long*/String id);
 
     List<PersonaOutputDto> retornaPorUserOutput( String user);
 

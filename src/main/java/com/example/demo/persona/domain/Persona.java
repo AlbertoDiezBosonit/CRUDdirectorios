@@ -1,6 +1,7 @@
 package com.example.demo.persona.domain;
 
 
+import com.example.demo.estudiante.domain.Estudiante;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,10 @@ public class Persona implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@OneToOne(fetch=FetchType.LAZY)
-    Long id;
+    //Long id;
+            @Column(name="id")
+    String id_persona;
+
 /*
     @Column(name="edad")
     String edad;
@@ -42,5 +46,8 @@ public class Persona implements Serializable {
     Date created_date;
     String imagen_url;
     Date termination_date;
+
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL,orphanRemoval=true)
+    Estudiante estudiante;
 
 }

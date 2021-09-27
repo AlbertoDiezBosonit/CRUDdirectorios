@@ -10,14 +10,15 @@ import lombok.Data;
 public class EstudianteOutputDto {
     //Long id;
     String id;
-    Long id_persona;
+    //Long id_persona;
+    String id_persona;
     Long num_hours_week;
     String comments;
     String branch;
 
     public EstudianteOutputDto(Estudiante estudiante){
-        this.id=estudiante.getId();
-        this.id_persona=estudiante.getPersona().getId();
+        this.id=estudiante.getId_estudiante();
+        this.id_persona=estudiante.getPersona().getId_persona();
         this.num_hours_week=estudiante.getNum_hours_week();
         this.comments=estudiante.getComments();
         this.branch=estudiante.getBranch();

@@ -18,7 +18,7 @@ public class ControladorBuscar {
     PersonaServicePort personaService;
 
     @GetMapping("/{id}")
-    public PersonaOutputDto retorna(@PathVariable Long id){
+    public PersonaOutputDto retorna(@PathVariable /*Long*/String id){
         return personaService.retornaPorIdOutput(id);
         // se lanza excepcion si no se encuentra
     }

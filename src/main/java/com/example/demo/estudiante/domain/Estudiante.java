@@ -19,7 +19,7 @@ create table estudiante
   id varchar(30) primary key auto_increment,
   id_persona int,
   num_hours_week int   not null,
-  coments varchar(30),
+  comments varchar(30),
 
   branch varchar(30) not null,
 FOREIGN KEY (id_persona)  REFERENCES persona(id)
@@ -40,12 +40,14 @@ public class Estudiante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
    //Long id;
-    String id;
+    @Column(name="id")
+    String id_estudiante;
 
     //@OneToOne(fetch=FetchType.LAZY)
 //    @JoinColumn(name = "Persona", referencedColumnName = "id")
   //  Long id_persona;
-    @OneToOne
+    // borra los dos registros a la vez
+    @OneToOne(fetch=FetchType.EAGER , cascade=CascadeType.ALL, orphanRemoval=true)
     @JoinColumn(name = "id_persona")
     Persona persona;
     Long num_hours_week;

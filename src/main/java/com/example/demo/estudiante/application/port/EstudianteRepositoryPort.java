@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface EstudianteRepositoryPort extends JpaRepository<Estudiante,Long> {
+public interface EstudianteRepositoryPort extends JpaRepository<Estudiante,/*Long*/String> {
     //List<Persona> findByUser(String user);
+    Persona findByPersona(Persona p);
 }
