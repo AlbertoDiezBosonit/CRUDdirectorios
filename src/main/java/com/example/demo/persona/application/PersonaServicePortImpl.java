@@ -99,18 +99,22 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     }
 
     @Override
-    public Optional<Persona> retornaPorId(Long id) {
+    public Persona retornaPorId(Long id) {
+      //  if(id!=null)
+        //    throw new BeanNotFoundException("No se ha encontrado registro con esa id");
+      //  System.out.println("hola "+id);
         Optional<Persona> retorno= personaRepositoryPort.findById(id);
-        if(retorno.isEmpty())
-            return null;
-        return retorno;
+      //  System.out.println("hola");
+        if(retorno!=null )
+            return retorno.get();
+        throw new BeanNotFoundException("No se ha encontrado registro con esa id");
     }
 
    @Override
    public PersonaOutputDto retornaPorIdOutput( Long id){
-        Optional<Persona> p=retornaPorId(id);
-        if (p!=null && !p.isEmpty()) {
-            return new PersonaOutputDto(p.get());
+        Persona p=retornaPorId(id);
+        if (p!=null ) {
+            return new PersonaOutputDto(p);
         }
         throw new BeanNotFoundException("No se ha encontrado registro con esa id");
    }

@@ -106,18 +106,18 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     }
 
     @Override
-    public Optional<Persona> retornaPorId(Long id) {
+    public Persona retornaPorId(Long id) {
         Optional<Persona> retorno= personaRepository.findById(id);
         if(retorno.isEmpty())
             return null;
-        return retorno;
+        return retorno.get();
     }
 
    @Override
    public PersonaOutputDto retornaPorIdOutput( Long id){
-        Optional<Persona> p=retornaPorId(id);
-        if (p!=null && !p.isEmpty()) {
-            return new PersonaOutputDto(p.get());
+        Persona p=retornaPorId(id);
+        if (p!=null) {
+            return new PersonaOutputDto(p);
         }
         return null;
    }

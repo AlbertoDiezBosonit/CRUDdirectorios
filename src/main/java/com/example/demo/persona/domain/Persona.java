@@ -21,6 +21,7 @@ import java.sql.Date;
 public class Persona implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@OneToOne(fetch=FetchType.LAZY)
     Long id;
 /*
     @Column(name="edad")

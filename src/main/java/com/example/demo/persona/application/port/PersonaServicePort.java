@@ -25,7 +25,7 @@ public interface PersonaServicePort {
 
     List<PersonaOutputDto> listaPersonasOutput();
 
-    Optional<Persona> retornaPorId( Long id);
+    Persona retornaPorId( Long id);
 
     PersonaOutputDto retornaPorIdOutput( Long id);
 
