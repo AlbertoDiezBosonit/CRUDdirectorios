@@ -2,6 +2,7 @@ package com.example.demo.estudiante.domain;
 
 
 import com.example.demo.persona.domain.Persona;
+import com.example.demo.profesor.domain.Profesor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,13 +19,16 @@ create table estudiante
 (
   id varchar(30) primary key auto_increment,
   id_persona int,
+ id_profesor int,
   num_hours_week int   not null,
   comments varchar(30),
 
   branch varchar(30) not null,
-FOREIGN KEY (id_persona)  REFERENCES persona(id)
+FOREIGN KEY (id_persona)  REFERENCES persona(id),
+FOREIGN KEY (id_profesor)  REFERENCES profesor(id)
 
 );
+
 
 * */
 
@@ -50,6 +54,9 @@ public class Estudiante {
     @OneToOne(fetch=FetchType.EAGER , cascade=CascadeType.ALL, orphanRemoval=true)
     @JoinColumn(name = "id_persona")
     Persona persona;
+
+
+
     Long num_hours_week;
     String comments;
     String branch;

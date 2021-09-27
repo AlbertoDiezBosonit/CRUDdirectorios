@@ -2,6 +2,7 @@ package com.example.demo.persona.domain;
 
 
 import com.example.demo.estudiante.domain.Estudiante;
+import com.example.demo.profesor.domain.Profesor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,13 @@ import org.springframework.stereotype.Service;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+
+
+
+
+
+
+
 
 @Setter
 @Getter
@@ -22,9 +30,7 @@ import java.sql.Date;
 public class Persona implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@OneToOne(fetch=FetchType.LAZY)
-    //Long id;
-            @Column(name="id")
+    @Column(name="id")
     String id_persona;
 
 /*
@@ -49,5 +55,8 @@ public class Persona implements Serializable {
 
     @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL,orphanRemoval=true)
     Estudiante estudiante;
+
+    @OneToOne(mappedBy = "persona" , cascade=CascadeType.ALL, orphanRemoval=true)
+    Profesor profesor;
 
 }
