@@ -19,7 +19,7 @@ public class ProfesorInputDto {
         if(this.getBranch()!=null)
             p.setBranch(this.getBranch());
         if(this.getComents()!=null)
-            p.setComents(this.getComents());
+            p.setComents(this.getComents()) ;
         //if(this.getId_persona()!=null)
           //  p.set
         return p;
