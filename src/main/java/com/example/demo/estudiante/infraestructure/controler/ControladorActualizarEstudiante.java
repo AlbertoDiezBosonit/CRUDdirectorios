@@ -21,7 +21,7 @@ public class ControladorActualizarEstudiante {
 
     @PutMapping("{id}") // actualizamos la persona, hay que estar atentos a la id
     @Transactional(rollbackOn = Exception.class)
-    public EstudianteOutputDto actualizar(@PathVariable /*Long*/String id, /*@ModelAttribute*/@RequestBody EstudianteInputDto estudiante ) throws Exception {
+    public EstudianteOutputDto actualizar(@PathVariable String id, @RequestBody EstudianteInputDto estudiante ) throws Exception {
         return estudianteService.actualizaEstudiante(id,estudiante);
         // se lanza excepcion si no se encuentra
     }

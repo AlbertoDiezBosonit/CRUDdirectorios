@@ -42,6 +42,7 @@ public class EstudianteService implements EstudianteServicePort {
              if(null!=estudianteRepositoryPort.findByPersona(personaRepositoryPort.getById(estudiante.getId_persona()) )){
                  throw new BeanUnprocesableException("Ya hay una asignada");
              }
+             // quedaria tambien hacer si hay un profesor con esa persona asignada
              Persona p=personaRepositoryPort.getById(estudiante.getId_persona());
              Estudiante e= estudiante.toEstudiante();
              e.setPersona(p);

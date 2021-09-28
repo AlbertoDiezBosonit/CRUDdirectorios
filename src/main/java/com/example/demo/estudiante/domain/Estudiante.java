@@ -1,6 +1,7 @@
 package com.example.demo.estudiante.domain;
 
 
+import com.example.demo.estudiante_asignatura.domain.Estudiante_Asignatura;
 import com.example.demo.persona.domain.Persona;
 import com.example.demo.profesor.domain.Profesor;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,8 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /* SQL que genera la tabla
@@ -43,7 +46,6 @@ FOREIGN KEY (id_profesor)  REFERENCES profesor(id)
 public class Estudiante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-   //Long id;
     @Column(name="id")
     String id_estudiante;
 
@@ -62,5 +64,14 @@ public class Estudiante {
     Long num_hours_week;
     String comments;
     String branch;
-    //String profesor_id;
+
+    @OneToMany(
+            mappedBy = "estudiante",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+
+    )
+    List<Estudiante_Asignatura> estudiantes_asignaturas=new ArrayList<>();//en el ejemplo lo inicializa
+
+
 }
