@@ -21,4 +21,6 @@ public interface ProfesorServicePort {
     void eliminaProfesorPorId(String id);
 
     ProfesorOutputDto retornaPorIdOutput(String id);
+
+    ProfesorOutputDto retornaPorIdOutputFull(String id);
 }

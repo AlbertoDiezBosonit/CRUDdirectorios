@@ -1,6 +1,7 @@
 package com.example.demo.persona.infraestructure.controller;
 
 
+import com.example.demo.estudiante.infraestructure.dto.EstudianteOutputDto;
 import com.example.demo.persona.application.port.PersonaServicePort;
 import com.example.demo.persona.infraestructure.dto.PersonaOutputDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,20 +15,21 @@ public class ControladorBuscar {
     @Autowired
     PersonaServicePort personaService;
 
-    @GetMapping("/{id}")
-    public PersonaOutputDto retorna(@PathVariable /*Long*/String id){
-        return personaService.retornaPorIdOutput(id);
-        // se lanza excepcion si no se encuentra
-    }
+
 
     @GetMapping("/nombre/{id}")
     public List<PersonaOutputDto> mostrarPorNombre2(@PathVariable String id){
             return personaService.mostrarPorNombreOutput(id);
     }
 
-    @GetMapping("/user/{id}")
-    public List<PersonaOutputDto> mostrarPorUser(@PathVariable String id){
-        return personaService.retornaPorUserOutput(id);
+    @GetMapping("/{id}")
+    public PersonaOutputDto retorna(@PathVariable String id, @RequestParam(value = "outputType",defaultValue = "simple") String itemid) throws Exception{
+        if(itemid.equals("simple"))
+            return personaService.retornaPorIdOutput(id);
+        else if(itemid.equals("full"))
+            return personaService.retornaPorIdOutputFull(id);
+        return null;
+        // se lanza excepcion si no se encuentra
     }
 
     @GetMapping

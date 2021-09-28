@@ -1,5 +1,7 @@
 package com.example.demo.persona.application;
 
+import com.example.demo.estudiante.application.port.EstudianteRepositoryPort;
+import com.example.demo.estudiante.infraestructure.dto.EstudianteOutputDto;
 import com.example.demo.persona.application.port.PersonaRepositoryPort;
 import com.example.demo.persona.application.port.PersonaServicePort;
 import com.example.demo.persona.domain.Persona;
@@ -7,6 +9,10 @@ import com.example.demo.exception.BeanNotFoundException;
 import com.example.demo.exception.BeanUnprocesableException;
 import com.example.demo.persona.infraestructure.dto.PersonaInputDto;
 import com.example.demo.persona.infraestructure.dto.PersonaOutputDto;
+import com.example.demo.persona.infraestructure.dto.PersonaOutputDtoFull;
+import com.example.demo.profesor.application.port.ProfesorRepositoryPort;
+import com.example.demo.profesor.application.port.ProfesorServicePort;
+import com.example.demo.profesor.infraestructure.Dto.ProfesorOutputDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +26,10 @@ public class PersonaServicePortImpl implements PersonaServicePort {
 
     @Autowired
     PersonaRepositoryPort personaRepositoryPort;
+    @Autowired
+    EstudianteRepositoryPort estudianteRepositoryPort;
+    @Autowired
+    ProfesorRepositoryPort profesorRepositoryPort;
 
 
     @Override
@@ -100,13 +110,10 @@ public class PersonaServicePortImpl implements PersonaServicePort {
 
     @Override
     public Persona retornaPorId(/*Long id*/ String id) throws BeanNotFoundException {
-      //  if(id!=null)
-        //    throw new BeanNotFoundException("No se ha encontrado registro con esa id");
-      //  System.out.println("hola "+id);
         Optional<Persona> retorno= personaRepositoryPort.findById(id);
-      //  System.out.println("hola");
         if(retorno!=null )
-            return retorno.get();
+            if(retorno.get()!=null)
+                return retorno.get();
         throw new BeanNotFoundException("No se ha encontrado registro con esa id");
     }
 
@@ -133,4 +140,23 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     public List<PersonaOutputDto> retornaPorUserOutput( String user){
         return personaRepositoryPort.findByUser(user).stream().map(p -> new PersonaOutputDto(p)).collect(Collectors.toList());
     }
+
+
+
+    public PersonaOutputDtoFull retornaPorIdOutputFull(String id){
+        Persona p=retornaPorId(id);
+        if (p!=null ) {
+            // ahora tenemos que comprobar si es un estudiante o una persona
+            PersonaOutputDtoFull retorno=new PersonaOutputDtoFull(p);
+            if(p.getEstudiante()!=null)
+                if(estudianteRepositoryPort.existsById(p.getEstudiante().getId_estudiante()))
+                    retorno.setEstudiante(new EstudianteOutputDto( estudianteRepositoryPort.getById(p.getEstudiante().getId_estudiante())));
+            if(p.getProfesor()!=null)
+                if(profesorRepositoryPort.existsById(p.getProfesor().getId_profesor()))
+                    retorno.setProfesor(new ProfesorOutputDto(profesorRepositoryPort.getById(p.getProfesor().getId_profesor())));
+            return retorno;
+        }
+        throw new BeanNotFoundException("No se ha encontrado registro con esa id");
+    }
+
 }

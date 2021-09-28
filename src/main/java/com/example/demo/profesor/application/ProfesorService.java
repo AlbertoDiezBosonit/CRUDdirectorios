@@ -1,8 +1,6 @@
 package com.example.demo.profesor.application;
 
 import com.example.demo.estudiante.application.port.EstudianteRepositoryPort;
-import com.example.demo.estudiante.domain.Estudiante;
-import com.example.demo.estudiante.infraestructure.dto.EstudianteOutputDto;
 import com.example.demo.exception.BeanNotFoundException;
 import com.example.demo.exception.BeanUnprocesableException;
 import com.example.demo.persona.application.port.PersonaRepositoryPort;
@@ -13,12 +11,14 @@ import com.example.demo.profesor.application.port.ProfesorServicePort;
 import com.example.demo.profesor.domain.Profesor;
 import com.example.demo.profesor.infraestructure.Dto.ProfesorInputDto;
 import com.example.demo.profesor.infraestructure.Dto.ProfesorOutputDto;
+import com.example.demo.profesor.infraestructure.Dto.ProfesorOutputDtoFull;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,7 +69,6 @@ public class ProfesorService implements ProfesorServicePort {
 
         if(this.valida_profesor(profesor)){
             if(!personaRepositoryPort.existsById(profesor.getId_persona())) {
-
                // System.out.println("No encontrado "+profesor.getId_persona());
                 throw new NotFoundException("No se ha encontrado persona para ese estudiante");
             }
@@ -104,8 +103,30 @@ public class ProfesorService implements ProfesorServicePort {
         }
     }
 
+    //@Override
+    public Profesor retornaPorId(String id) {
+        Optional<Profesor> retorno= profesorRepositoryPort.findById(id);
+        if(retorno!=null )
+            return retorno.get();
+        throw new BeanNotFoundException("No se ha encontrado registro con esa id");
+    }
+
     @Override
-    public ProfesorOutputDto retornaPorIdOutput(String id) {
-        return null;
+    public ProfesorOutputDto retornaPorIdOutput(/* Long id*/String id){
+        Profesor p=retornaPorId(id);
+        if (p!=null ) {
+            return new ProfesorOutputDto(p);
+        }
+        throw new BeanNotFoundException("No se ha encontrado registro con esa id");
+    }
+
+
+    public ProfesorOutputDtoFull retornaPorIdOutputFull(String id){
+        Optional<Profesor> retorno= profesorRepositoryPort.findById(id);
+        if(retorno!=null ) {
+            return new ProfesorOutputDtoFull(retorno.get(),new PersonaOutputDto(retorno.get().getPersona() ));
+
+        }
+        throw new BeanNotFoundException("No se ha encontrado registro con esa id");
     }
 }

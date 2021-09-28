@@ -3,6 +3,7 @@ package com.example.demo.persona.application.port;
 import com.example.demo.persona.domain.Persona;
 import com.example.demo.persona.infraestructure.dto.PersonaInputDto;
 import com.example.demo.persona.infraestructure.dto.PersonaOutputDto;
+import com.example.demo.persona.infraestructure.dto.PersonaOutputDtoFull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,4 +37,5 @@ public interface PersonaServicePort {
     List<PersonaOutputDto> mostrarPorNombreOutput(String nombre);
 
 
+    PersonaOutputDtoFull retornaPorIdOutputFull(String id);
 }
