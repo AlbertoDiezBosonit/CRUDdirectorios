@@ -4,6 +4,7 @@ import com.example.demo.estudiante.application.port.EstudianteServicePort;
 import com.example.demo.estudiante.domain.Estudiante;
 import com.example.demo.estudiante.infraestructure.dto.EstudianteInputDto;
 import com.example.demo.estudiante.infraestructure.dto.EstudianteOutputDto;
+import com.example.demo.estudiante.infraestructure.dto.EstudianteOutputDtoFull;
 import com.example.demo.exception.BeanNotFoundException;
 import com.example.demo.exception.BeanUnprocesableException;
 import com.example.demo.persona.application.port.PersonaRepositoryPort;
@@ -99,6 +100,13 @@ public class EstudianteService implements EstudianteServicePort {
             throw new BeanNotFoundException("No se ha encontrado registro con esa id");
         }
 
+    }
+
+    public EstudianteOutputDtoFull retornaPorIdOutputFull(String id){
+        Estudiante preRetorno=estudianteRepositoryPort.getById(id);
+        Persona persona=preRetorno.getPersona();
+        EstudianteOutputDtoFull retorno=new EstudianteOutputDtoFull(preRetorno,persona);
+        return retorno;
     }
 
 

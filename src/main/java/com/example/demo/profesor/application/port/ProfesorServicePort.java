@@ -16,7 +16,7 @@ public interface ProfesorServicePort {
 
     List<ProfesorOutputDto> retornaTodos();
 
-    ProfesorOutputDto actualizaEstudiante(String id, ProfesorInputDto persona);
+    ProfesorOutputDto actualizaProfesor(String id, ProfesorInputDto persona) throws NotFoundException;
 
     void eliminaProfesorPorId(String id);
 

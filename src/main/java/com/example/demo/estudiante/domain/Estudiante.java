@@ -55,9 +55,12 @@ public class Estudiante {
     @JoinColumn(name = "id_persona")
     Persona persona;
 
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_profesor")
+            Profesor profesor;
 
     Long num_hours_week;
     String comments;
     String branch;
+    //String profesor_id;
 }

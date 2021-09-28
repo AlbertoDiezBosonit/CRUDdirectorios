@@ -25,8 +25,13 @@ public class ControladorBuscarEstudiante {
     }
 
     @GetMapping("/{id}")
-    public EstudianteOutputDto retorna(@PathVariable /*Long*/String id){
-        return estudianteService.retornaPorIdOutput(id);
+    public EstudianteOutputDto retorna(@PathVariable String id,@RequestParam(value = "outputType",defaultValue = "simple") String itemid){
+        System.out.println(itemid);
+        if(itemid.equals("simple"))
+            return estudianteService.retornaPorIdOutput(id);
+        else if(itemid.equals("full"))
+            return estudianteService.retornaPorIdOutputFull(id);
+        return null;
         // se lanza excepcion si no se encuentra
     }
 

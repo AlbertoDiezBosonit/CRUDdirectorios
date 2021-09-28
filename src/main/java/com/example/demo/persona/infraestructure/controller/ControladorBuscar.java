@@ -4,10 +4,7 @@ package com.example.demo.persona.infraestructure.controller;
 import com.example.demo.persona.application.port.PersonaServicePort;
 import com.example.demo.persona.infraestructure.dto.PersonaOutputDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +22,7 @@ public class ControladorBuscar {
 
     @GetMapping("/nombre/{id}")
     public List<PersonaOutputDto> mostrarPorNombre2(@PathVariable String id){
-        return personaService.mostrarPorNombreOutput(id);
+            return personaService.mostrarPorNombreOutput(id);
     }
 
     @GetMapping("/user/{id}")

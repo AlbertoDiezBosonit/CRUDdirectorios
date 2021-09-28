@@ -2,6 +2,7 @@ package com.example.demo.estudiante.application.port;
 
 import com.example.demo.estudiante.infraestructure.dto.EstudianteInputDto;
 import com.example.demo.estudiante.infraestructure.dto.EstudianteOutputDto;
+import com.example.demo.estudiante.infraestructure.dto.EstudianteOutputDtoFull;
 import com.example.demo.persona.infraestructure.dto.PersonaInputDto;
 import com.example.demo.persona.infraestructure.dto.PersonaOutputDto;
 import javassist.NotFoundException;
@@ -21,4 +22,6 @@ public interface EstudianteServicePort {
     void eliminaEstudiantePorId(String id);
 
     EstudianteOutputDto retornaPorIdOutput(String id);
+
+    EstudianteOutputDtoFull retornaPorIdOutputFull(String id);
 }

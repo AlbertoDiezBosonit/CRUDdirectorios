@@ -99,7 +99,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     }
 
     @Override
-    public Persona retornaPorId(/*Long id*/ String id) {
+    public Persona retornaPorId(/*Long id*/ String id) throws BeanNotFoundException {
       //  if(id!=null)
         //    throw new BeanNotFoundException("No se ha encontrado registro con esa id");
       //  System.out.println("hola "+id);

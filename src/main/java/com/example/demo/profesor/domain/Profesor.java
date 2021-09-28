@@ -10,6 +10,8 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Setter
@@ -23,17 +25,19 @@ public class Profesor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    String id;
+    String id_profesor;
 
     @OneToOne(fetch=FetchType.EAGER , cascade=CascadeType.ALL, orphanRemoval=true)
     @JoinColumn(name = "id_persona")
     Persona persona;
 
     @OneToMany(
+            mappedBy = "profesor",
             cascade = CascadeType.ALL,
             orphanRemoval = true
+
     )
-    Set<Estudiante> estudiantes;
+    List<Estudiante> estudiantes=new ArrayList<>();//en el ejemplo lo inicializa
 
     String coments;
     String branch;
