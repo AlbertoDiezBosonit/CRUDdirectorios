@@ -22,9 +22,6 @@ public class ControladorRestPuerto8081 {
     public ProfesorOutputDto retorna8081(@PathVariable String id, @RequestParam(value = "outputType",defaultValue = "simple") String itemid){
         // ahora tenemos que hacer la llamada
         String url="http://localhost:8081/profesor/" + id + "?outputType=" + itemid;
-
-
-
         if(itemid.equals("simple")) {
             try {
                 ResponseEntity<ProfesorOutputDto> responseEntity = new RestTemplate().getForEntity(url, ProfesorOutputDto.class);
@@ -48,11 +45,6 @@ public class ControladorRestPuerto8081 {
             }
         }
         return null;
-
-
     }
-
-//    @RestControler(“/profesor/{id})
-//    GET getProfesor(@PathVariable int id)
 
 }
