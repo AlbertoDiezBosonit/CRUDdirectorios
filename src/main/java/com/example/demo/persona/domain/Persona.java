@@ -14,7 +14,23 @@ import java.io.Serializable;
 import java.sql.Date;
 
 
+/*
+   create table persona(
+  id varchar(20) primary key auto_increment,
+ user varchar(20),
+ password varchar(20),
+name varchar(20),
+ surname varchar(20),
+ company_email varchar(20),
+ personal_email varchar(20),
+ city varchar(20),
+ active varchar(20),
+ created_date date,
+ imagen_url varchar(20),
+ termination_date date
 
+);
+* */
 
 
 

@@ -2,15 +2,15 @@ package com.example.demo.persona.infraestructure.dto;
 
 
 import com.example.demo.persona.domain.Persona;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Date;
 
 @Data
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class PersonaOutputDto {
     // clase DTO para el tipo persona
 

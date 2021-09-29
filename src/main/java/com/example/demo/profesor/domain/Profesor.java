@@ -14,6 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+
+/*
+   create table profesor
+(
+  id varchar(20) primary key auto_increment,
+id_persona varchar(20),
+coments varchar(20),
+branch varchar(20),
+foreign key (id_persona) references persona(id)
+
+);
+* */
+
 @Setter
 @Getter
 @AllArgsConstructor

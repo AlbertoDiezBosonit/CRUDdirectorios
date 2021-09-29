@@ -3,8 +3,16 @@ package com.example.demo.profesor.infraestructure.Dto;
 import com.example.demo.persona.infraestructure.dto.PersonaOutputDto;
 import com.example.demo.profesor.domain.Profesor;
 import com.example.demo.profesor.infraestructure.Dto.ProfesorOutputDto;
+import lombok.*;
 
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class ProfesorOutputDtoFull extends ProfesorOutputDto {
+/*
     public PersonaOutputDto getPersona() {
         return this.personaOutputDto;
     }
@@ -12,7 +20,7 @@ public class ProfesorOutputDtoFull extends ProfesorOutputDto {
     public void setPersona(PersonaOutputDto p) {
         this.personaOutputDto = p;
     }
-
+*/
     PersonaOutputDto personaOutputDto;
 
     public ProfesorOutputDtoFull(Profesor profesor) {
