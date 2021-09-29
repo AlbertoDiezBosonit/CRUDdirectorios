@@ -9,6 +9,5 @@ import java.util.List;
 
 @Service
 public interface EstudianteRepositoryPort extends JpaRepository<Estudiante,/*Long*/String> {
-    //List<Persona> findByUser(String user);
-    Persona findByPersona(Persona p);
+    Estudiante findByPersona(Persona p);
 }

@@ -20,7 +20,7 @@ public class ControladorInsertar {
 
     @PostMapping(value="/addPersona")
     @Transactional(rollbackOn = Exception.class)
-    public PersonaOutputDto addPersona(/*@ModelAttribute */ @RequestBody PersonaInputDto persona ) throws Exception {
+    public PersonaOutputDto addPersona( @RequestBody PersonaInputDto persona ) throws Exception {
         return personaService.insertaPersona(persona);
         // se lanza exception si no se puede insertar
     }

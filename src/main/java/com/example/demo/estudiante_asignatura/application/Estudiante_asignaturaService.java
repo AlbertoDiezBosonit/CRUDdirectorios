@@ -24,20 +24,16 @@ public class Estudiante_asignaturaService implements Estudiante_asignaturaServic
     public EstudianteOutputDto addAsignaturas(String id,List<Estudiante_asignaturaInputDto> asignaturas){
         // cogemos una lista de asignaturas y las introducimos
         Estudiante estudiante=estudianteRepositoryPort.getById(id);
-        for (Estudiante_asignaturaInputDto e:asignaturas) {
+        asignaturas.stream().forEach(e -> {
             Estudiante_Asignatura estudiante_asignatura=e.to_Estudiante_Asignatura();
             estudiante_asignatura.setEstudiante(estudiante);
             estudiante_asignaturaRepositoryPort.save(estudiante_asignatura);
-        }
+        });
         return new EstudianteOutputDto(estudiante);
     }
 
     public   Integer deleteAsignaturas(String id, List<String> asignaturas){
-        Integer retorno=asignaturas.size();
-        for (String i:asignaturas) {
-            System.out.println(i);
-            estudiante_asignaturaRepositoryPort.deleteById(i);
-        }
-        return retorno;
+        asignaturas.stream().forEach(s -> estudiante_asignaturaRepositoryPort.deleteById(s));
+        return asignaturas.size();
     }
 }

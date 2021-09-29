@@ -49,9 +49,6 @@ public class Estudiante {
     @Column(name="id")
     String id_estudiante;
 
-    //@OneToOne(fetch=FetchType.LAZY)
-//    @JoinColumn(name = "Persona", referencedColumnName = "id")
-  //  Long id_persona;
     // borra los dos registros a la vez
     @OneToOne(fetch=FetchType.EAGER , cascade=CascadeType.ALL, orphanRemoval=true)
     @JoinColumn(name = "id_persona")

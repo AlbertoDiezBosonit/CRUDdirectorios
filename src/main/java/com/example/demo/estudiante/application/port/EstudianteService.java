@@ -1,6 +1,5 @@
 package com.example.demo.estudiante.application.port;
 
-import com.example.demo.estudiante.application.port.EstudianteServicePort;
 import com.example.demo.estudiante.domain.Estudiante;
 import com.example.demo.estudiante.infraestructure.dto.EstudianteInputDto;
 import com.example.demo.estudiante.infraestructure.dto.EstudianteOutputDto;
@@ -9,8 +8,7 @@ import com.example.demo.exception.BeanNotFoundException;
 import com.example.demo.exception.BeanUnprocesableException;
 import com.example.demo.persona.application.port.PersonaRepositoryPort;
 import com.example.demo.persona.domain.Persona;
-import com.example.demo.persona.infraestructure.dto.PersonaInputDto;
-import com.example.demo.persona.infraestructure.dto.PersonaOutputDto;
+import com.example.demo.profesor.application.port.ProfesorRepositoryPort;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +26,9 @@ public class EstudianteService implements EstudianteServicePort {
     @Autowired
     PersonaRepositoryPort personaRepositoryPort;
 
+    @Autowired
+    ProfesorRepositoryPort profesorRepositoryPort;
+
     private boolean validaEstudiante(EstudianteInputDto estudiante) {
         return true;
     }
@@ -35,15 +36,26 @@ public class EstudianteService implements EstudianteServicePort {
     @Override
     public EstudianteOutputDto insertaEstudiante(EstudianteInputDto estudiante) throws NotFoundException {
          if(validaEstudiante(estudiante)) {
+             // estas comprobaciones se pueden hacer mas sencillas comprobando nulos en los campos de los objetos
+             // aunque tambien depende si las tablas hijas se cargan automaticamente al cargar una fila,
+             // depende de la configuración hecha desde las anotaciones
              if(!personaRepositoryPort.existsById(estudiante.getId_persona())) {
-                 System.out.println("No encontrado");
                  throw new NotFoundException("No se ha encontrado persona para ese estudiante");
              }
-             if(null!=estudianteRepositoryPort.findByPersona(personaRepositoryPort.getById(estudiante.getId_persona()) )){
-                 throw new BeanUnprocesableException("Ya hay una asignada");
-             }
-             // quedaria tambien hacer si hay un profesor con esa persona asignada
              Persona p=personaRepositoryPort.getById(estudiante.getId_persona());
+
+                if (p != null) {
+                    if (estudianteRepositoryPort.findByPersona(p)!=null) {
+                        throw new BeanUnprocesableException("Ya hay una persona asignada a un estudiante");
+                    }
+
+                    if (profesorRepositoryPort.findByPersona(p)!=null) {
+                        throw new BeanUnprocesableException("Ya hay una persona asignada a un profesor");
+                    }
+                }
+             // con salvar el estudiante es suficiente, si hay que cambiar tablas hijas se supone que lo hace
+             // automaticamente jpa
+
              Estudiante e= estudiante.toEstudiante();
              e.setPersona(p);
              e=estudianteRepositoryPort.save(e);
@@ -83,11 +95,7 @@ public class EstudianteService implements EstudianteServicePort {
 
     public void eliminaEstudiantePorId(String id){
         try {
-
                 estudianteRepositoryPort.deleteById(id);
-
-
-           // throw new BeanNotFoundException("No se ha podido eliminar por que no se ha encontrado");
         }catch(Exception e){
             throw new BeanNotFoundException("No se ha podido eliminar por que no se ha encontrado");
         }
@@ -100,16 +108,11 @@ public class EstudianteService implements EstudianteServicePort {
         }catch(Exception e) {
             throw new BeanNotFoundException("No se ha encontrado registro con esa id");
         }
-
     }
 
     public EstudianteOutputDtoFull retornaPorIdOutputFull(String id){
         Estudiante preRetorno=estudianteRepositoryPort.getById(id);
         Persona persona=preRetorno.getPersona();
-        EstudianteOutputDtoFull retorno=new EstudianteOutputDtoFull(preRetorno,persona);
-        return retorno;
+        return new EstudianteOutputDtoFull(preRetorno,persona);
     }
-
-
-
 }
