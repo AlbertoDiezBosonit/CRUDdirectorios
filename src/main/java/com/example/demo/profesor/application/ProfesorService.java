@@ -40,9 +40,13 @@ public class ProfesorService implements ProfesorServicePort {
     @Override
     public ProfesorOutputDto insertaProfesor(ProfesorInputDto profesor) throws NotFoundException {
         if(this.valida_profesor(profesor)){
-            Persona p=personaRepositoryPort.getById(profesor.getId_persona());
-           if(!personaRepositoryPort.existsById(profesor.getId_persona())) {
-                throw new NotFoundException("No se ha encontrado persona para ese estudiante");
+            Persona p;
+            try {
+                Optional<Persona> aux = personaRepositoryPort.findById(profesor.getId_persona());
+                p=aux.get();
+            }catch (Exception e){
+                throw new BeanUnprocesableException("No se ha encontrado persona para ese estudiante");
+                //throw new NotFoundException("No se ha encontrado persona para ese estudiante");
             }
 
             if (estudianteRepositoryPort.findByPersona(p)!=null) {
@@ -73,16 +77,26 @@ public class ProfesorService implements ProfesorServicePort {
         pro=profesorRepositoryPort.getById(id);
 
         if(this.valida_profesor(profesor)){
-            if(!personaRepositoryPort.existsById(profesor.getId_persona())) {
-               // System.out.println("No encontrado "+profesor.getId_persona());
-                throw new NotFoundException("No se ha encontrado persona para ese estudiante");
+            Persona p;
+            try {
+                Optional<Persona> aux = personaRepositoryPort.findById(profesor.getId_persona());
+                p=aux.get();
+            }catch (Exception e){
+                throw new BeanUnprocesableException("No se ha encontrado persona para ese estudiante");
+                //throw new NotFoundException("No se ha encontrado persona para ese estudiante");
             }
-            if(pro.getPersona().getId_persona()!=profesor.getId_persona()) {
-                if (null != profesorRepositoryPort.findByPersona(personaRepositoryPort.getById(profesor.getId_persona()))) {
-                    throw new BeanUnprocesableException("Ya hay una asignada");
-                }
+
+            if (estudianteRepositoryPort.findByPersona(p)!=null) {
+                // si es la misma persona lo admitimos
+                if(!estudianteRepositoryPort.findByPersona(p).getPersona().getId_persona().equals(profesor.getId_persona()))
+                    throw new BeanUnprocesableException("Ya hay una persona asignada a un estudiante");
             }
-            Persona p=personaRepositoryPort.getById(profesor.getId_persona());
+
+            if (profesorRepositoryPort.findByPersona(p)!=null) {
+                if(!profesorRepositoryPort.findByPersona(p).getPersona().getId_persona().equals(profesor.getId_persona()))
+                    throw new BeanUnprocesableException("Ya hay una persona asignada a un profesor");
+            }
+            p=personaRepositoryPort.getById(profesor.getId_persona());
             pro=profesor.toProfesor(pro);
             pro.setPersona(p);
             // no hace falta actualizar los estudiantes, lo hace directamente jpa
@@ -98,34 +112,27 @@ public class ProfesorService implements ProfesorServicePort {
             Profesor p = profesorRepositoryPort.getById(id);
             profesorRepositoryPort.delete(p);
         }catch(EntityNotFoundException e){
-            e.printStackTrace();
             throw new BeanNotFoundException("No se ha podido eliminar por que no se ha encontrado");
         }
     }
 
     //@Override
     public Profesor retornaPorId(String id) {
-        Optional<Profesor> retorno= profesorRepositoryPort.findById(id);
-        if(retorno!=null )
-            return retorno.get();
-        throw new BeanNotFoundException("No se ha encontrado registro con esa id");
+        try {
+            return profesorRepositoryPort.findById(id).get();
+        }catch (Exception e) {
+            throw new BeanNotFoundException("No se ha encontrado registro con esa id");
+        }
     }
 
     @Override
-    public ProfesorOutputDto retornaPorIdOutput(/* Long id*/String id){
-        Profesor p=retornaPorId(id);
-        if (p!=null ) {
-            return new ProfesorOutputDto(p);
-        }
-        throw new BeanNotFoundException("No se ha encontrado registro con esa id");
+    public ProfesorOutputDto retornaPorIdOutput(String id){
+        return new ProfesorOutputDto(retornaPorId(id)); // si no esta la id se lanza una excepcion
     }
 
-
+    @Override
     public ProfesorOutputDtoFull retornaPorIdOutputFull(String id){
-        Optional<Profesor> retorno= profesorRepositoryPort.findById(id);
-        if(retorno!=null ) {
-            return new ProfesorOutputDtoFull(retorno.get(),new PersonaOutputDto(retorno.get().getPersona() ));
-        }
-        throw new BeanNotFoundException("No se ha encontrado registro con esa id");
+        Profesor profesor=retornaPorId(id);
+        return new ProfesorOutputDtoFull(profesor,new PersonaOutputDto(profesor.getPersona() ));
     }
 }

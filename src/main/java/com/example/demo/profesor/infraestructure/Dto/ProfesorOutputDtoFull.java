@@ -5,11 +5,11 @@ import com.example.demo.profesor.domain.Profesor;
 import com.example.demo.profesor.infraestructure.Dto.ProfesorOutputDto;
 
 public class ProfesorOutputDtoFull extends ProfesorOutputDto {
-    public PersonaOutputDto getP() {
+    public PersonaOutputDto getPersona() {
         return this.personaOutputDto;
     }
 
-    public void setP(PersonaOutputDto p) {
+    public void setPersona(PersonaOutputDto p) {
         this.personaOutputDto = p;
     }
 

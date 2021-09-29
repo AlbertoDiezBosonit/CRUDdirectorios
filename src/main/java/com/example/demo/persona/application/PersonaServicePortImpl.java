@@ -53,7 +53,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
 
     @Override
     public PersonaOutputDto insertaPersona(PersonaInputDto pi) {
-        // vamos a eliminar el id para insertarlo en la base de datos
+        // vamos a insertar el activo y la fecha actual como fecha de alta
         Persona p=pi.toPersona();
         p.setActive("activo");
         p.setCreated_date(new java.sql.Date(new java.util.Date().getTime()));
@@ -68,16 +68,16 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     public  PersonaOutputDto actualizaPersona(String id, PersonaInputDto p){
         Persona persona;
         try {
-            persona = personaRepositoryPort.getById(id);
+            persona = personaRepositoryPort.getById(id); // si no lo encuentra este lanza una excepcion
             persona=p.toPersona(persona);
         }catch (EntityNotFoundException e){
-            throw new BeanNotFoundException("No se ha podido eliminar por que no se ha encontrado");
+            throw new BeanNotFoundException("No se ha podido actualizar por que no se ha encontrado");
         }
-        if(this.validaPersona(persona)) {
+        if(this.validaPersona(persona)) { // si no es correcto aqui ya se lanzaria la excepcoin
             personaRepositoryPort.save(persona);
             return new PersonaOutputDto(persona);
         }
-        throw new BeanNotFoundException("No se ha podido actualizar por que no se ha encontrado");
+        throw new BeanNotFoundException("No se ha podido actualizar por que los datos no son correctos");
     }
 
     @Override
@@ -106,11 +106,12 @@ public class PersonaServicePortImpl implements PersonaServicePort {
 
     @Override
     public Persona retornaPorId(String id) throws BeanNotFoundException {
-        Optional<Persona> retorno= personaRepositoryPort.findById(id);
-        if(retorno!=null )
-            if(retorno.get()!=null)
-                return retorno.get();
-        throw new BeanNotFoundException("No se ha encontrado registro con esa id");
+        try {
+            Optional<Persona> retorno = personaRepositoryPort.findById(id);
+            return retorno.get();
+        }catch (Exception e) {
+            throw new BeanNotFoundException("No se ha encontrado registro con esa id");
+        }
     }
 
    @Override
@@ -124,7 +125,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
 
     @Override
     public List<Persona>  mostrarPorNombre(String nombre) {
-        return personaRepositoryPort.findByName(nombre);
+        return personaRepositoryPort.findByName(nombre); // si no hay ninguna retorna un vacio
     }
 
     @Override
@@ -139,7 +140,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
 
     public PersonaOutputDtoFull retornaPorIdOutputFull(String id){
         Persona p=retornaPorId(id);
-        if (p!=null ) {
+        if (p!=null) {
             // ahora tenemos que comprobar si es un estudiante o una persona
             PersonaOutputDtoFull retorno=new PersonaOutputDtoFull(p);
             if(p.getEstudiante()!=null)
