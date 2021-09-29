@@ -62,11 +62,10 @@ public class PersonaServicePortImpl implements PersonaServicePort {
             return new PersonaOutputDto(p);
         }
         throw new BeanUnprocesableException("No se ha podido insertar la persona");
-
     }
 
     @Override
-    public  PersonaOutputDto actualizaPersona(/*Long*/String id, PersonaInputDto p){
+    public  PersonaOutputDto actualizaPersona(String id, PersonaInputDto p){
         Persona persona;
         try {
             persona = personaRepositoryPort.getById(id);
@@ -74,14 +73,11 @@ public class PersonaServicePortImpl implements PersonaServicePort {
         }catch (EntityNotFoundException e){
             throw new BeanNotFoundException("No se ha podido eliminar por que no se ha encontrado");
         }
-
-        //persona.setCreated_date(new java.sql.Date(new java.util.Date().getTime()));
         if(this.validaPersona(persona)) {
             personaRepositoryPort.save(persona);
             return new PersonaOutputDto(persona);
         }
         throw new BeanNotFoundException("No se ha podido actualizar por que no se ha encontrado");
-        //return persona==personaRepository.save(persona);
     }
 
     @Override
@@ -109,7 +105,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     }
 
     @Override
-    public Persona retornaPorId(/*Long id*/ String id) throws BeanNotFoundException {
+    public Persona retornaPorId(String id) throws BeanNotFoundException {
         Optional<Persona> retorno= personaRepositoryPort.findById(id);
         if(retorno!=null )
             if(retorno.get()!=null)
@@ -118,12 +114,12 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     }
 
    @Override
-   public PersonaOutputDto retornaPorIdOutput(/* Long id*/String id){
-        Persona p=retornaPorId(id);
-        if (p!=null ) {
-            return new PersonaOutputDto(p);
+   public PersonaOutputDto retornaPorIdOutput(String id){
+        try {
+                return new PersonaOutputDto(retornaPorId(id));
+        }catch (Exception e) {
+            throw new BeanNotFoundException("No se ha encontrado registro con esa id");
         }
-        throw new BeanNotFoundException("No se ha encontrado registro con esa id");
    }
 
     @Override
@@ -140,8 +136,6 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     public List<PersonaOutputDto> retornaPorUserOutput( String user){
         return personaRepositoryPort.findByUser(user).stream().map(p -> new PersonaOutputDto(p)).collect(Collectors.toList());
     }
-
-
 
     public PersonaOutputDtoFull retornaPorIdOutputFull(String id){
         Persona p=retornaPorId(id);

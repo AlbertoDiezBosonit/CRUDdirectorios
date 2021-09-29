@@ -23,7 +23,7 @@ public class ControladorBuscar {
     }
 
     @GetMapping("/{id}")
-    public PersonaOutputDto retorna(@PathVariable String id, @RequestParam(value = "outputType",defaultValue = "simple") String itemid) throws Exception{
+    public PersonaOutputDto retorna(@PathVariable String id, @RequestParam(value = "outputType",defaultValue = "simple") String itemid) {
         if(itemid.equals("simple"))
             return personaService.retornaPorIdOutput(id);
         else if(itemid.equals("full"))

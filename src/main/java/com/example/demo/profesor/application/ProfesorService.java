@@ -40,14 +40,19 @@ public class ProfesorService implements ProfesorServicePort {
     @Override
     public ProfesorOutputDto insertaProfesor(ProfesorInputDto profesor) throws NotFoundException {
         if(this.valida_profesor(profesor)){
+            Persona p=personaRepositoryPort.getById(profesor.getId_persona());
            if(!personaRepositoryPort.existsById(profesor.getId_persona())) {
-                System.out.println("No encontrado");
                 throw new NotFoundException("No se ha encontrado persona para ese estudiante");
             }
-            if(null!=profesorRepositoryPort.findByPersona(personaRepositoryPort.getById(profesor.getId_persona()) )){
-                throw new BeanUnprocesableException("Ya hay una asignada");
+
+            if (estudianteRepositoryPort.findByPersona(p)!=null) {
+                throw new BeanUnprocesableException("Ya hay una persona asignada a un estudiante");
             }
-            Persona p=personaRepositoryPort.getById(profesor.getId_persona());
+
+            if (profesorRepositoryPort.findByPersona(p)!=null) {
+                throw new BeanUnprocesableException("Ya hay una persona asignada a un profesor");
+            }
+
             Profesor pro= profesor.toProfesor();
             pro.setPersona(p);
             // no hace falta actualizar los estudiantes, lo hace directamente jpa
@@ -90,13 +95,8 @@ public class ProfesorService implements ProfesorServicePort {
     @Override
     public void eliminaProfesorPorId(String id) {
         try {
-           // System.out.println("profesor: "+id);
             Profesor p = profesorRepositoryPort.getById(id);
-            System.out.println(p.getId_profesor());
-          //  if (p.getBranch() != null) { // hasta que no se hae un get que no sea del id no salta la excepcion
-                profesorRepositoryPort.delete(p);
-           // }
-            throw new BeanNotFoundException("No se ha podido eliminar por que no se ha encontrado");
+            profesorRepositoryPort.delete(p);
         }catch(EntityNotFoundException e){
             e.printStackTrace();
             throw new BeanNotFoundException("No se ha podido eliminar por que no se ha encontrado");
@@ -125,7 +125,6 @@ public class ProfesorService implements ProfesorServicePort {
         Optional<Profesor> retorno= profesorRepositoryPort.findById(id);
         if(retorno!=null ) {
             return new ProfesorOutputDtoFull(retorno.get(),new PersonaOutputDto(retorno.get().getPersona() ));
-
         }
         throw new BeanNotFoundException("No se ha encontrado registro con esa id");
     }
