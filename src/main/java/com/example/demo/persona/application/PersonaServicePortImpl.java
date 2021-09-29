@@ -61,7 +61,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
             personaRepositoryPort.save(p);
             return new PersonaOutputDto(p);
         }
-        throw new BeanUnprocesableException("No se ha podido insertar la persona");
+        throw new BeanUnprocesableException("No se ha podido insertar la persona" );
     }
 
     @Override
