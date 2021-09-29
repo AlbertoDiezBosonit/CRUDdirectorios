@@ -36,9 +36,7 @@ public class ControladorRestPuerto8081 {
             try {
                 ResponseEntity<ProfesorOutputDtoFull> responseEntity = new RestTemplate().getForEntity(url, ProfesorOutputDtoFull.class);
                 if (responseEntity.getStatusCode() == HttpStatus.OK) {
-                    ProfesorOutputDtoFull retorno=responseEntity.getBody();
-
-                    return retorno;
+                    return responseEntity.getBody();
                 }
                 throw new BeanNotFoundException("No encontrado");
             } catch (Exception e) {
