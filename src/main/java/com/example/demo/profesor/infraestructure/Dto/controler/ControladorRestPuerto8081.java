@@ -46,5 +46,14 @@ public class ControladorRestPuerto8081 {
         }
         return null;
     }
+/*
+    @Autowired
+    private FeighPort feighPort;
 
+    @GetMapping("/feign/{country}")
+    public ProfesorOutputDto getCountryUsingFeign(@PathVariable String id) {
+        //return new feighPort.getprofesor (id);
+        return null;
+    }
+*/
 }

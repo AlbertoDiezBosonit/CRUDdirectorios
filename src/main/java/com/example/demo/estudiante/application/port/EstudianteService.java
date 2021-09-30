@@ -39,10 +39,11 @@ public class EstudianteService implements EstudianteServicePort {
              // estas comprobaciones se pueden hacer mas sencillas comprobando nulos en los campos de los objetos
              // aunque tambien depende si las tablas hijas se cargan automaticamente al cargar una fila,
              // depende de la configuración hecha desde las anotaciones
+             Persona p=personaRepositoryPort.getById(estudiante.getId_persona());
              if(!personaRepositoryPort.existsById(estudiante.getId_persona())) {
                  throw new NotFoundException("No se ha encontrado persona para ese estudiante");
              }
-             Persona p=personaRepositoryPort.getById(estudiante.getId_persona());
+
 
                 if (p != null) {
                     if (estudianteRepositoryPort.findByPersona(p)!=null) {
@@ -60,6 +61,8 @@ public class EstudianteService implements EstudianteServicePort {
              e.setPersona(p);
              e=estudianteRepositoryPort.save(e);
              return new EstudianteOutputDto(e);
+
+
          }
          throw new BeanUnprocesableException("No se ha podido insertar el estudiante");
    }
@@ -106,7 +109,7 @@ public class EstudianteService implements EstudianteServicePort {
             Optional<Estudiante> retorno = estudianteRepositoryPort.findById(id);
             return new EstudianteOutputDto(retorno.get());
         }catch(Exception e) {
-            throw new BeanNotFoundException("No se ha encontrado registro con esa id");
+            throw new BeanNotFoundException("No se ha encontrado registro de estudiante con esa id");
         }
     }
 

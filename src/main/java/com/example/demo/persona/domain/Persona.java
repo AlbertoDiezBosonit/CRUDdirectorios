@@ -69,10 +69,20 @@ public class Persona implements Serializable {
     String imagen_url;
     Date termination_date;
 
+    public Estudiante getEstudiante(){
+        return this.estudiante;
+    }
+
+    public Profesor getProfesor(){
+        return this.profesor;
+    }
+
     @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL,orphanRemoval=true)
     Estudiante estudiante;
 
     @OneToOne(mappedBy = "persona" , cascade=CascadeType.ALL, orphanRemoval=true)
     Profesor profesor;
+
+
 
 }

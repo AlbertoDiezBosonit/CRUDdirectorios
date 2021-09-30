@@ -110,7 +110,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
             Optional<Persona> retorno = personaRepositoryPort.findById(id);
             return retorno.get();
         }catch (Exception e) {
-            throw new BeanNotFoundException("No se ha encontrado registro con esa id");
+            throw new BeanNotFoundException("No se ha encontrado registro de persona con esa id");
         }
     }
 
@@ -119,7 +119,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
         try {
                 return new PersonaOutputDto(retornaPorId(id));
         }catch (Exception e) {
-            throw new BeanNotFoundException("No se ha encontrado registro con esa id");
+            throw new BeanNotFoundException("No se ha encontrado registro de persona con esa id");
         }
    }
 

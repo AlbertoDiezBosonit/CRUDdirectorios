@@ -1,12 +1,19 @@
 package com.example.demo.persona.application;
 
+import com.example.demo.estudiante.application.port.EstudianteRepositoryPort;
+import com.example.demo.estudiante.domain.Estudiante;
+import com.example.demo.estudiante.infraestructure.dto.EstudianteOutputDto;
+import com.example.demo.persona.application.port.PersonaRepositoryPort;
 import com.example.demo.persona.application.port.PersonaServicePort;
 import com.example.demo.persona.domain.Persona;
-import com.example.demo.persona.domain.PersonaRepository;
 import com.example.demo.exception.BeanNotFoundException;
 import com.example.demo.exception.BeanUnprocesableException;
 import com.example.demo.persona.infraestructure.dto.PersonaInputDto;
 import com.example.demo.persona.infraestructure.dto.PersonaOutputDto;
+import com.example.demo.persona.infraestructure.dto.PersonaOutputDtoFull;
+import com.example.demo.profesor.application.port.ProfesorRepositoryPort;
+import com.example.demo.profesor.application.port.ProfesorServicePort;
+import com.example.demo.profesor.infraestructure.Dto.ProfesorOutputDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,121 +26,137 @@ import java.util.stream.Collectors;
 public class PersonaServicePortImpl implements PersonaServicePort {
 
     @Autowired
-    PersonaRepository personaRepository;
+    PersonaRepositoryPort personaRepositoryPort;
+    @Autowired
+    EstudianteRepositoryPort estudianteRepositoryPort;
+    @Autowired
+    ProfesorRepositoryPort profesorRepositoryPort;
 
+
+    public PersonaOutputDtoFull retornaPorIdOutputFull(String id){
+        Persona persona=retornaPorId(id);
+      /*  Estudiante estudiante=persona.getEstudiante();
+        if (persona!=null) {
+            // ahora tenemos que comprobar si es un estudiante o una persona
+            PersonaOutputDtoFull retorno=new PersonaOutputDtoFull(persona);
+            if(persona.getEstudiante()!=null)
+                if(estudianteRepositoryPort.existsById(persona.getEstudiante().getId_estudiante()))
+                    retorno.setEstudiante(new EstudianteOutputDto( estudianteRepositoryPort.getById(persona.getEstudiante().getId_estudiante())));
+            if(persona.getProfesor()!=null)
+                if(profesorRepositoryPort.existsById(persona.getProfesor().getId_profesor()))
+                    retorno.setProfesor(new ProfesorOutputDto(profesorRepositoryPort.getById(persona.getProfesor().getId_profesor())));
+            return retorno;
+        }*/
+        throw new BeanNotFoundException("No se ha encontrado registro con esa id");
+    }
 
     @Override
     public boolean validaPersona(Persona p){
-        String mensajeError="";
         if(6> p.getUser().length() || 10<p.getUser().length())
-            mensajeError+="La longitud de User no es la correcta"+System.lineSeparator();
+            throw new BeanUnprocesableException("La longitud de User no es la correcta");
         if(p.getPassword()==null)
-            mensajeError+="No hay mensaje de error"+System.lineSeparator();
+            throw new BeanUnprocesableException("No hay mensaje de error");
         if( p.getName()==null)
-            mensajeError+="No hay nombre"+System.lineSeparator();
+            throw new BeanUnprocesableException("No hay nombre");
         if( p.getCity()==null)
-            mensajeError+="No se ha indicado una ciudad"+System.lineSeparator();
+            throw new BeanUnprocesableException("No se ha indicado una ciudad");
         if( p.getCreated_date()==null)
-            mensajeError+="No se ha aportado una fecha de creación"+System.lineSeparator();
+            throw new BeanUnprocesableException("No se ha aportado una fecha de creación");
         if(!p.getCompany_email().contains("@"))
-            mensajeError+="No se ha aportado un email de empresa correcto"+System.lineSeparator();
+            throw new BeanUnprocesableException("No se ha aportado un email de empresa correcto");
         if(!p.getPersonal_email().contains("@"))
-            mensajeError+="No se ha aportado un email personal correcto"+System.lineSeparator();
-        if(!mensajeError.equals(""))
-            throw new BeanUnprocesableException(mensajeError);
+            throw new BeanUnprocesableException("No se ha aportado un email personal correcto");
         return true;
     }
 
     @Override
     public PersonaOutputDto insertaPersona(PersonaInputDto pi) {
-        // vamos a eliminar el id para insertarlo en la base de datos
+        // vamos a insertar el activo y la fecha actual como fecha de alta
         Persona p=pi.toPersona();
         p.setActive("activo");
         p.setCreated_date(new java.sql.Date(new java.util.Date().getTime()));
         if(validaPersona(p)) {
-            personaRepository.save(p);
+            personaRepositoryPort.save(p);
             return new PersonaOutputDto(p);
         }
-        return null;
+        throw new BeanUnprocesableException("No se ha podido insertar la persona" );
     }
 
     @Override
-    public  PersonaOutputDto actualizaPersona(/*Long*/String id,PersonaInputDto p){
+    public  PersonaOutputDto actualizaPersona(String id, PersonaInputDto p){
         Persona persona;
         try {
-            persona = personaRepository.getById(id);
+            persona = personaRepositoryPort.getById(id); // si no lo encuentra este lanza una excepcion
             persona=p.toPersona(persona);
         }catch (EntityNotFoundException e){
-            throw new BeanNotFoundException("No se ha encontrado la persona a actualizar");
+            throw new BeanNotFoundException("No se ha podido actualizar por que no se ha encontrado");
         }
-
-        //persona.setCreated_date(new java.sql.Date(new java.util.Date().getTime()));
-        if(this.validaPersona(persona)) {
-            personaRepository.save(persona);
+        if(this.validaPersona(persona)) { // si no es correcto aqui ya se lanzaria la excepcoin
+            personaRepositoryPort.save(persona);
             return new PersonaOutputDto(persona);
         }
-        throw new BeanNotFoundException("No se ha encontrado la persona a actualizar");
-        // no llegaremos nunca hasta aqui
-
+        throw new BeanNotFoundException("No se ha podido actualizar por que los datos no son correctos");
     }
-
 
     @Override
-    public boolean eliminaPersonaPorId(/*Long*/String id){
+    public boolean eliminaPersonaPorId(/*Long id*/String id){
         try {
-            Persona p = personaRepository.getById(id);
+            Persona p = personaRepositoryPort.getById(id);
             if (p.getUser() != null) { // hasta que no se hae un get que no sea del id no salta la excepcion
-                personaRepository.delete(p);
+                personaRepositoryPort.delete(p);
                 return true;
             }
-            return false;
+            throw new BeanNotFoundException("No se ha podido eliminar por que no se ha encontrado");
         }catch(EntityNotFoundException e){
-            return false;
+            throw new BeanNotFoundException("No se ha podido eliminar por que no se ha encontrado");
         }
     }
-
-
-
 
     @Override
     public List<Persona> listaPersonas() {
-        return personaRepository.findAll();
+        return personaRepositoryPort.findAll();
     }
 
     @Override
     public List<PersonaOutputDto> listaPersonasOutput(){
-        return personaRepository.findAll().stream().map(p -> new PersonaOutputDto(p)).collect(Collectors.toList());
+        return personaRepositoryPort.findAll().stream().map(p -> new PersonaOutputDto(p)).collect(Collectors.toList());
     }
 
     @Override
-    public Persona retornaPorId(/*Long*/String id) {
-        Optional<Persona> retorno= personaRepository.findById(id);
-        if(retorno.isEmpty())
-            return null;
-        return retorno.get();
+    public Persona retornaPorId(String id) throws BeanNotFoundException {
+        try {
+            Optional<Persona> retorno = personaRepositoryPort.findById(id);
+            return retorno.get();
+        }catch (Exception e) {
+            throw new BeanNotFoundException("No se ha encontrado registro con esa id");
+        }
     }
 
-   @Override
-   public PersonaOutputDto retornaPorIdOutput( /*Long*/String id){
-        Persona p=retornaPorId(id);
-        if (p!=null) {
-            return new PersonaOutputDto(p);
+    @Override
+    public PersonaOutputDto retornaPorIdOutput(String id){
+        try {
+            return new PersonaOutputDto(retornaPorId(id));
+        }catch (Exception e) {
+            throw new BeanNotFoundException("No se ha encontrado registro con esa id");
         }
-        return null;
-   }
+    }
 
     @Override
     public List<Persona>  mostrarPorNombre(String nombre) {
-        return personaRepository.findByName(nombre);
+        return personaRepositoryPort.findByName(nombre); // si no hay ninguna retorna un vacio
     }
 
     @Override
     public List<PersonaOutputDto> mostrarPorNombreOutput(String nombre){
-        return personaRepository.findByName(nombre).stream().map(p -> new PersonaOutputDto(p)).collect(Collectors.toList());
+        return personaRepositoryPort.findByName(nombre).stream().map(p -> new PersonaOutputDto(p)).collect(Collectors.toList());
     }
 
     @Override
     public List<PersonaOutputDto> retornaPorUserOutput( String user){
-        return personaRepository.findByUser(user).stream().map(p -> new PersonaOutputDto(p)).collect(Collectors.toList());
+        return personaRepositoryPort.findByUser(user).stream().map(p -> new PersonaOutputDto(p)).collect(Collectors.toList());
     }
+
+
+
 }
+
