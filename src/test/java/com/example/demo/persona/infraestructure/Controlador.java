@@ -32,7 +32,7 @@ public class Controlador {
 
 
     @GetMapping("/{id}")
-    public PersonaOutputDto retorna(@PathVariable /*Long*/String id){
+    public PersonaOutputDto retorna(@PathVariable /*Long*/Integer id){
         PersonaOutputDto p=personaService.retornaPorIdOutput(id);
         if(p==null)
             throw new BeanNotFoundException("No se ha encontrado ningún registro con esa id");
@@ -40,12 +40,12 @@ public class Controlador {
     }
 
     @GetMapping("/nombre/{id}")
-    public List<PersonaOutputDto> mostrarPorNombre2(@PathVariable String id){
+    public List<PersonaOutputDto> mostrarPorNombre2(@PathVariable Integer id){
         return personaService.mostrarPorNombreOutput(id);
     }
 
     @GetMapping("/user/{id}")
-    public List<PersonaOutputDto> mostrarPorUser(@PathVariable String id){
+    public List<PersonaOutputDto> mostrarPorUser(@PathVariable Integer id){
         return personaService.retornaPorUserOutput(id);
     }
 
@@ -56,7 +56,7 @@ public class Controlador {
 
     @PutMapping("{id}") // actualizamos la persona, hay que estar atentos a la id
     @Transactional(rollbackOn = Exception.class)
-    public PersonaOutputDto actualizar(@PathVariable /*Long*/String id,@ModelAttribute PersonaInputDto persona ) throws Exception {
+    public PersonaOutputDto actualizar(@PathVariable /*Long*/Integer id,@ModelAttribute PersonaInputDto persona ) throws Exception {
         PersonaOutputDto retorno=personaService.actualizaPersona(id,persona);
         if(retorno!=null)
             return retorno;
@@ -65,7 +65,7 @@ public class Controlador {
 
     @DeleteMapping("/{id}")
     @Transactional(rollbackOn = Exception.class)
-    public String borraPersona(@PathVariable /*Long*/String id) throws Exception{
+    public String borraPersona(@PathVariable /*Long*/Integer id) throws Exception{
         if( personaService.eliminaPersonaPorId(id))
             return "Borrado";
         throw new BeanNotFoundException("No se ha encontrado ningún registro con esa id para ser borrado");

@@ -21,7 +21,7 @@ public class Estudiante_asignaturaService implements Estudiante_asignaturaServic
     @Autowired
     EstudianteRepositoryPort estudianteRepositoryPort;
 
-    public EstudianteOutputDto addAsignaturas(String id,List<Estudiante_asignaturaInputDto> asignaturas){
+    public EstudianteOutputDto addAsignaturas(Integer id,List<Estudiante_asignaturaInputDto> asignaturas){
         // cogemos una lista de asignaturas y las introducimos
         Estudiante estudiante=estudianteRepositoryPort.getById(id);
         asignaturas.stream().forEach(e -> {
@@ -32,7 +32,7 @@ public class Estudiante_asignaturaService implements Estudiante_asignaturaServic
         return new EstudianteOutputDto(estudiante);
     }
 
-    public   Integer deleteAsignaturas(String id, List<String> asignaturas){
+    public   Integer deleteAsignaturas(Integer id, List<Integer> asignaturas){
         asignaturas.stream().forEach(s -> estudiante_asignaturaRepositoryPort.deleteById(s));
         return asignaturas.size();
     }

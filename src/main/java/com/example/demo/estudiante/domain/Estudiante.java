@@ -21,8 +21,8 @@ drop table estudiante
 create table estudiante
 (
   id varchar(30) primary key auto_increment,
-  id_persona int,
- id_profesor int,
+  id_persona varchar(30),
+ id_profesor varchar(30),
   num_hours_week int   not null,
   comments varchar(30),
 
@@ -47,7 +47,7 @@ public class Estudiante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    String id_estudiante;
+    /*String*/Integer id_estudiante;
 
     // borra los dos registros a la vez
     @OneToOne(fetch=FetchType.EAGER , cascade=CascadeType.ALL, orphanRemoval=true)

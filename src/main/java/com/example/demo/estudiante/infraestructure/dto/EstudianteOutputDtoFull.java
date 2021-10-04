@@ -116,7 +116,7 @@ public class EstudianteOutputDtoFull extends EstudianteOutputDto{
 
     public EstudianteOutputDtoFull(Estudiante estudiante,Persona p) {
         super(estudiante);
-        this.user=p.getUser();
+        this.user=p.getUsere();
         this.password=p.getPassword();
         this.name=p.getName();
         this.surname=p.getSurname();

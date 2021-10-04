@@ -12,8 +12,9 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 public class ProfesorInputDto {
-    String id_persona,coments,branch;
-    List<String> estudiantes;
+    String coments,branch;
+    Integer id_persona;
+    List<Integer> estudiantes;
 
     public Profesor toProfesor(Profesor p){
         if(this.getBranch()!=null)

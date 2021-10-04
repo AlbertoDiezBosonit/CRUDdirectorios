@@ -21,14 +21,14 @@ public class ControladorAsignaturasEstudiante {
 
     @PostMapping("addAsignatura/{id}") // actualizamos la persona, hay que estar atentos a la id
     @Transactional(rollbackOn = Exception.class)
-    public EstudianteOutputDto addAsignatura(@PathVariable String id, @RequestBody List<Estudiante_asignaturaInputDto> asignaturas) throws Exception {
+    public EstudianteOutputDto addAsignatura(@PathVariable Integer id, @RequestBody List<Estudiante_asignaturaInputDto> asignaturas) throws Exception {
         return estudiante_asignaturaServicePort.addAsignaturas(id,asignaturas);
         // se lanza excepcion si no se encuentra
     }
 
     @DeleteMapping("DeleteAsignatura/{id}") // actualizamos la persona, hay que estar atentos a la id
     @Transactional(rollbackOn = Exception.class)
-    public Integer deleteAsignatura(@PathVariable String id, @RequestBody List<String> asignaturas) throws Exception {
+    public Integer deleteAsignatura(@PathVariable Integer id, @RequestBody List<Integer> asignaturas) throws Exception {
         return estudiante_asignaturaServicePort.deleteAsignaturas(id,asignaturas);
         // se lanza excepcion si no se encuentra
     }

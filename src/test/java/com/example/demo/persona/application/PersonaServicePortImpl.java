@@ -33,7 +33,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     ProfesorRepositoryPort profesorRepositoryPort;
 
 
-    public PersonaOutputDtoFull retornaPorIdOutputFull(String id){
+    public PersonaOutputDtoFull retornaPorIdOutputFull(Integer id){
         Persona persona=retornaPorId(id);
       /*  Estudiante estudiante=persona.getEstudiante();
         if (persona!=null) {
@@ -83,7 +83,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     }
 
     @Override
-    public  PersonaOutputDto actualizaPersona(String id, PersonaInputDto p){
+    public  PersonaOutputDto actualizaPersona(Integer id, PersonaInputDto p){
         Persona persona;
         try {
             persona = personaRepositoryPort.getById(id); // si no lo encuentra este lanza una excepcion
@@ -99,7 +99,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     }
 
     @Override
-    public boolean eliminaPersonaPorId(/*Long id*/String id){
+    public boolean eliminaPersonaPorId(/*Long id*/Integer id){
         try {
             Persona p = personaRepositoryPort.getById(id);
             if (p.getUser() != null) { // hasta que no se hae un get que no sea del id no salta la excepcion
@@ -123,7 +123,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     }
 
     @Override
-    public Persona retornaPorId(String id) throws BeanNotFoundException {
+    public Persona retornaPorId(Integer id) throws BeanNotFoundException {
         try {
             Optional<Persona> retorno = personaRepositoryPort.findById(id);
             return retorno.get();
@@ -133,7 +133,7 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     }
 
     @Override
-    public PersonaOutputDto retornaPorIdOutput(String id){
+    public PersonaOutputDto retornaPorIdOutput(Integer id){
         try {
             return new PersonaOutputDto(retornaPorId(id));
         }catch (Exception e) {
@@ -142,18 +142,18 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     }
 
     @Override
-    public List<Persona>  mostrarPorNombre(String nombre) {
+    public List<Persona>  mostrarPorNombre(Integer nombre) {
         return personaRepositoryPort.findByName(nombre); // si no hay ninguna retorna un vacio
     }
 
     @Override
-    public List<PersonaOutputDto> mostrarPorNombreOutput(String nombre){
+    public List<PersonaOutputDto> mostrarPorNombreOutput(Integer nombre){
         return personaRepositoryPort.findByName(nombre).stream().map(p -> new PersonaOutputDto(p)).collect(Collectors.toList());
     }
 
     @Override
-    public List<PersonaOutputDto> retornaPorUserOutput( String user){
-        return personaRepositoryPort.findByUser(user).stream().map(p -> new PersonaOutputDto(p)).collect(Collectors.toList());
+    public List<PersonaOutputDto> retornaPorUserOutput( Integer user){
+        return personaRepositoryPort.findByUsere(user).stream().map(p -> new PersonaOutputDto(p)).collect(Collectors.toList());
     }
 
 

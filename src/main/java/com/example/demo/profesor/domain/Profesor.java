@@ -38,7 +38,7 @@ public class Profesor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    String id_profesor;
+    /*String*/Integer id_profesor;
 
     @OneToOne(fetch=FetchType.EAGER , cascade=CascadeType.ALL, orphanRemoval=true)
     @JoinColumn(name = "id_persona")

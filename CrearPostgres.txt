@@ -1,0 +1,52 @@
+--create database uno
+/*
+   create table persona(
+  id bigserial primary key ,
+ usere varchar(20),
+ password varchar(20),
+name varchar(20),
+ surname varchar(20),
+ company_email varchar(20),
+ personal_email varchar(20),
+ city varchar(20),
+ active varchar(20),
+ created_date date,
+ imagen_url varchar(20),
+ termination_date date
+
+);
+
+create table profesor
+(
+  id bigserial primary key ,
+id_persona bigint,
+coments varchar(20),
+branch varchar(20),
+foreign key (id_persona) references persona(id)
+
+);
+create table estudiante
+(
+  id bigserial primary key ,
+  id_persona bigint,
+ id_profesor bigint,
+  num_hours_week int   not null,
+  comments varchar(30),
+
+  branch varchar(30) not null,
+FOREIGN KEY (id_persona)  REFERENCES persona(id),
+FOREIGN KEY (id_profesor)  REFERENCES profesor(id)
+
+);
+*/
+
+create table estudiante_asignatura
+(
+  id_asignatura bigserial primary key ,
+  id_estudiante bigint,
+  asignatura varchar(20),
+ coments varchar(20),
+ initial_date date not null,
+ finish_date date  ,
+FOREIGN KEY (id_estudiante)  REFERENCES estudiante(id)
+);

@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProfesorOutputDto {
-    String id_persona,coments,branch,id;
-
+    String coments,branch;
+    Integer id_persona,id;
     public  ProfesorOutputDto(Profesor p){
         this.setId(p.getId_profesor());
         this.setId_persona(p.getPersona().getId_persona());

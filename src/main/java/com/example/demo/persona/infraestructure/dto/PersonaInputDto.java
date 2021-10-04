@@ -24,7 +24,7 @@ public class PersonaInputDto {
 
     public PersonaInputDto(Persona p){
         if(p!=null){
-            this.setUser(p.getUser());
+            this.setUser(p.getUsere());
             this.setPassword(p.getPassword());
             this.setName(p.getName());
             this.setSurname(p.getSurname());
@@ -39,7 +39,7 @@ public class PersonaInputDto {
 
     public Persona toPersona(){
         Persona p=new Persona();
-        p.setUser(this.getUser());
+        p.setUsere(this.getUser());
         p.setPassword(this.getPassword());
         p.setName(this.getName());
         p.setSurname(this.getSurname());
@@ -57,7 +57,7 @@ public class PersonaInputDto {
             return this.toPersona();
         // solo actualizamos los datos que existen, no tienen por que estar todos
         if(this.getUser()!=null)
-            p.setUser(this.getUser());
+            p.setUsere(this.getUser());
         if(this.getPassword()!=null)
             p.setPassword(this.getPassword());
         if(this.getName()!=null)

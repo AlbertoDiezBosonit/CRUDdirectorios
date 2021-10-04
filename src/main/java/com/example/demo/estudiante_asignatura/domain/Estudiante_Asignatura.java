@@ -39,7 +39,7 @@ public class Estudiante_Asignatura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_asignatura")
-    String id_estudiante_asignatura;
+    /*String*/Integer id_estudiante_asignatura;
 
 
     @ManyToOne

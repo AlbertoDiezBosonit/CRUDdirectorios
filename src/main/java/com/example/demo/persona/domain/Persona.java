@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
@@ -41,13 +42,16 @@ name varchar(20),
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "persona")
+@Table(name = "PERSONA")
 @Service
 public class Persona implements Serializable {
+
+
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
-    String id_persona;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="ID")
+    /*String*/Integer id_persona;
 
 /*
     @Column(name="edad")
@@ -57,7 +61,7 @@ public class Persona implements Serializable {
     @Column(name="poblacion")
     String poblacion;*/
 
-    String user ;
+    String usere ;
     String password ;
     String name ;
     String surname ;

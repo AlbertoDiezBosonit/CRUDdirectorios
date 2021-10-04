@@ -15,7 +15,7 @@ public class PersonaOutputDto {
     // clase DTO para el tipo persona
 
     //Long id;
-    String id;
+    Integer id;
     String user ;
     String password ;
     String name ;
@@ -30,7 +30,7 @@ public class PersonaOutputDto {
         if(p!=null) {
             if(p.getId_persona()!=null)
                 this.setId(p.getId_persona());
-            this.setUser(p.getUser());
+            this.setUser(p.getUsere());
             this.setPassword(p.getPassword());
             this.setName(p.getName());
             this.setSurname(p.getSurname());
@@ -46,7 +46,7 @@ public class PersonaOutputDto {
         Persona p=new Persona();
         if(this.getId()!=null)
             p.setId_persona(this.getId());
-        p.setUser(this.getUser());
+        p.setUsere(this.getUser());
         p.setPassword(this.getPassword());
         p.setName(this.getName());
         p.setSurname(this.getSurname());
@@ -63,7 +63,7 @@ public class PersonaOutputDto {
             return this.toPersona();
         if(this.getId()!=null)
             p.setId_persona(this.getId());
-        p.setUser(this.getUser());
+        p.setUsere(this.getUser());
         p.setPassword(this.getPassword());
         p.setName(this.getName());
         p.setSurname(this.getSurname());
