@@ -4,6 +4,6 @@ import com.example.demo.persona.domain.Persona;
 import com.example.demo.profesor.domain.Profesor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProfesorRepositoryPort extends JpaRepository<Profesor,Integer> {
+public interface ProfesorRepositoryPort extends JpaRepository<Profesor,String> {
     Profesor findByPersona(Persona p);
 }

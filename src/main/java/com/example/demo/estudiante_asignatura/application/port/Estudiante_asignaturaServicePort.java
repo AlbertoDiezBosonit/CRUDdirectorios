@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public interface Estudiante_asignaturaServicePort {
 
-    EstudianteOutputDto addAsignaturas(Integer id,List<Estudiante_asignaturaInputDto> asignaturas);
+    EstudianteOutputDto addAsignaturas(String id,List<Estudiante_asignaturaInputDto> asignaturas);
 
-    Integer deleteAsignaturas(Integer id, List<Integer> asignaturas);
+    Integer deleteAsignaturas(String id, List<String> asignaturas);
 }

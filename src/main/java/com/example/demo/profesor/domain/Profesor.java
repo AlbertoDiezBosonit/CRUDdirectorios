@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
@@ -36,9 +37,11 @@ foreign key (id_persona) references persona(id)
 @Service
 public class Profesor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(name="id")
-    /*String*/Integer id_profesor;
+    String id_profesor;
 
     @OneToOne(fetch=FetchType.EAGER , cascade=CascadeType.ALL, orphanRemoval=true)
     @JoinColumn(name = "id_persona")

@@ -72,7 +72,7 @@ public class ProfesorService implements ProfesorServicePort {
     }
 
     @Override
-    public ProfesorOutputDto actualizaProfesor(Integer id, ProfesorInputDto profesor) throws NotFoundException {
+    public ProfesorOutputDto actualizaProfesor(String id, ProfesorInputDto profesor) throws NotFoundException {
         Profesor pro;
         pro=profesorRepositoryPort.getById(id);
 
@@ -107,7 +107,7 @@ public class ProfesorService implements ProfesorServicePort {
     }
 
     @Override
-    public void eliminaProfesorPorId(Integer id) {
+    public void eliminaProfesorPorId(String id) {
         try {
             Profesor p = profesorRepositoryPort.getById(id);
             profesorRepositoryPort.delete(p);
@@ -117,7 +117,7 @@ public class ProfesorService implements ProfesorServicePort {
     }
 
     //@Override
-    public Profesor retornaPorId(Integer id) {
+    public Profesor retornaPorId(String id) {
         try {
             return profesorRepositoryPort.findById(id).get();
         }catch (Exception e) {
@@ -126,12 +126,12 @@ public class ProfesorService implements ProfesorServicePort {
     }
 
     @Override
-    public ProfesorOutputDto retornaPorIdOutput(Integer id){
+    public ProfesorOutputDto retornaPorIdOutput(String id){
         return new ProfesorOutputDto(retornaPorId(id)); // si no esta la id se lanza una excepcion
     }
 
     @Override
-    public ProfesorOutputDtoFull retornaPorIdOutputFull(Integer id){
+    public ProfesorOutputDtoFull retornaPorIdOutputFull(String id){
         Profesor profesor=retornaPorId(id);
         return new ProfesorOutputDtoFull(profesor,new PersonaOutputDto(profesor.getPersona() ));
     }

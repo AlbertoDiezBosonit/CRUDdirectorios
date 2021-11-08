@@ -8,7 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Service;
+import org.hibernate.annotations.Parameter;
+import com.example.demo.StringPrefixedSequenceIdGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -45,9 +48,21 @@ FOREIGN KEY (id_profesor)  REFERENCES profesor(id)
 @Service
 public class Estudiante {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    /*@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "estudiante_seq")
+    @GenericGenerator(
+            name="estudiante_seq",
+            strategy = "com.example.demo.StringPrefixedSequenceIdGenerator",
+            parameters = {
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "1"),
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "AUS"),
+                    @Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%08d")
+            }
+    )*/
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(name="id")
-    /*String*/Integer id_estudiante;
+    String/*Integer*/ id_estudiante;
 
     // borra los dos registros a la vez
     @OneToOne(fetch=FetchType.EAGER , cascade=CascadeType.ALL, orphanRemoval=true)

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public interface Estudiante_asignaturaRepositoryPort extends JpaRepository<Estudiante_Asignatura,/*String*/Integer> {
+public interface Estudiante_asignaturaRepositoryPort extends JpaRepository<Estudiante_Asignatura,String> {
 
 
 }

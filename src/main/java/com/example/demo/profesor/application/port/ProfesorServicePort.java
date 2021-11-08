@@ -16,11 +16,11 @@ public interface ProfesorServicePort {
 
     List<ProfesorOutputDto> retornaTodos();
 
-    ProfesorOutputDto actualizaProfesor(Integer id, ProfesorInputDto persona) throws NotFoundException;
+    ProfesorOutputDto actualizaProfesor(String id, ProfesorInputDto persona) throws NotFoundException;
 
-    void eliminaProfesorPorId(Integer id);
+    void eliminaProfesorPorId(String id);
 
-    ProfesorOutputDto retornaPorIdOutput(Integer id);
+    ProfesorOutputDto retornaPorIdOutput(String id);
 
-    ProfesorOutputDto retornaPorIdOutputFull(Integer id);
+    ProfesorOutputDto retornaPorIdOutputFull(String id);
 }

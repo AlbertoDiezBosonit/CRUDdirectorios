@@ -21,7 +21,7 @@ public class ControladorEliminarProfesor {
 
     @DeleteMapping("/{id}")
     @Transactional(rollbackOn = Exception.class)
-    public void borraProfesor(@PathVariable Integer id) throws Exception{
+    public void borraProfesor(@PathVariable String id) throws Exception{
         profesorService.eliminaProfesorPorId(id);
         // se lanza excepcion si no se encuentra, en caso de salir bien no retorna nada
     }

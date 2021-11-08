@@ -17,11 +17,11 @@ public interface EstudianteServicePort {
 
     List<EstudianteOutputDto> retornaTodos();
 
-    EstudianteOutputDto actualizaEstudiante(Integer id, EstudianteInputDto persona);
+    EstudianteOutputDto actualizaEstudiante(String id, EstudianteInputDto persona);
 
-    void eliminaEstudiantePorId(Integer id);
+    void eliminaEstudiantePorId(String id);
 
-    EstudianteOutputDto retornaPorIdOutput(Integer id);
+    EstudianteOutputDto retornaPorIdOutput(String id);
 
-    EstudianteOutputDtoFull retornaPorIdOutputFull(Integer id);
+    EstudianteOutputDtoFull retornaPorIdOutputFull(String id);
 }

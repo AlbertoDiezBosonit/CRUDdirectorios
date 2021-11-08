@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProfesorOutputDto {
     String coments,branch;
-    Integer id_persona,id;
+    String id_persona,id;
     public  ProfesorOutputDto(Profesor p){
         this.setId(p.getId_profesor());
         this.setId_persona(p.getPersona().getId_persona());

@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface PersonaRepositoryPort extends JpaRepository<Persona,/*Long*//*String*/Integer> {
+public interface PersonaRepositoryPort extends JpaRepository<Persona,/*Long*/String> {
   //  @Query("select p from Persona p where p.name = ?1")
   //  public List<Persona> encontrarPorNombre(String nombre);
     // el query tiene que estar aqui
 
-    List<Persona> findByName(/*String*/Integer name);
+    List<Persona> findByName(String name);
 
-    List<Persona> findByUsere(/*String*/Integer user);
+    List<Persona> findByUsere(String user);
     // así es mas simple
 }

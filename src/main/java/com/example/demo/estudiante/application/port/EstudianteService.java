@@ -74,7 +74,7 @@ public class EstudianteService implements EstudianteServicePort {
    }
 
    @Override
-   public EstudianteOutputDto actualizaEstudiante(/*String*/Integer id, EstudianteInputDto e){
+   public EstudianteOutputDto actualizaEstudiante(String id, EstudianteInputDto e){
        Estudiante estudiante;
        try {
            estudiante = estudianteRepositoryPort.getById(id);
@@ -96,7 +96,7 @@ public class EstudianteService implements EstudianteServicePort {
        throw new BeanNotFoundException("No se ha podido actualizar por que no se ha encontrado");
    }
 
-    public void eliminaEstudiantePorId(Integer id){
+    public void eliminaEstudiantePorId(String id){
         try {
                 estudianteRepositoryPort.deleteById(id);
         }catch(Exception e){
@@ -104,7 +104,7 @@ public class EstudianteService implements EstudianteServicePort {
         }
     }
 
-    public EstudianteOutputDto retornaPorIdOutput(Integer id){
+    public EstudianteOutputDto retornaPorIdOutput(String id){
         try {
             Optional<Estudiante> retorno = estudianteRepositoryPort.findById(id);
             return new EstudianteOutputDto(retorno.get());
@@ -113,7 +113,7 @@ public class EstudianteService implements EstudianteServicePort {
         }
     }
 
-    public EstudianteOutputDtoFull retornaPorIdOutputFull(Integer id){
+    public EstudianteOutputDtoFull retornaPorIdOutputFull(String id){
         Estudiante preRetorno=estudianteRepositoryPort.getById(id);
         Persona persona=preRetorno.getPersona();
         return new EstudianteOutputDtoFull(preRetorno,persona);

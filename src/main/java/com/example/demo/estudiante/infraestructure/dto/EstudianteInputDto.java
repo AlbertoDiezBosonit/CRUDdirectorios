@@ -20,7 +20,7 @@ public class EstudianteInputDto {
 
 
     //Long id_persona;
-    Integer id_persona;
+    String id_persona;
     Long num_hours_week;
     String comments;
     String branch;

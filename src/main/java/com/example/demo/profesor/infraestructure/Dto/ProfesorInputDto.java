@@ -13,7 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class ProfesorInputDto {
     String coments,branch;
-    Integer id_persona;
+    String id_persona;
     List<Integer> estudiantes;
 
     public Profesor toProfesor(Profesor p){

@@ -18,24 +18,24 @@ public interface PersonaServicePort {
 
     PersonaOutputDto insertaPersona(PersonaInputDto p);
 
-    boolean eliminaPersonaPorId(/*Long*//*String*/Integer id);
+    boolean eliminaPersonaPorId(/*Long*/String id);
 
-    PersonaOutputDto actualizaPersona(/*Long*/Integer id,PersonaInputDto p);
+    PersonaOutputDto actualizaPersona(/*Long*/String id,PersonaInputDto p);
 
     List<Persona> listaPersonas();
 
     List<PersonaOutputDto> listaPersonasOutput();
 
-    Persona retornaPorId( /*Long*/Integer id);
+    Persona retornaPorId( /*Long*/String id);
 
-    PersonaOutputDto retornaPorIdOutput( /*Long*/Integer id);
+    PersonaOutputDto retornaPorIdOutput( /*Long*/String id);
 
-    List<PersonaOutputDto> retornaPorUserOutput( Integer user);
+    List<PersonaOutputDto> retornaPorUserOutput( String user);
 
-    List<Persona> mostrarPorNombre(Integer nombre);
+    List<Persona> mostrarPorNombre(String nombre);
 
-    List<PersonaOutputDto> mostrarPorNombreOutput(Integer nombre);
+    List<PersonaOutputDto> mostrarPorNombreOutput(String nombre);
 
 
-    PersonaOutputDtoFull retornaPorIdOutputFull(Integer id);
+    PersonaOutputDtoFull retornaPorIdOutputFull(String id);
 }

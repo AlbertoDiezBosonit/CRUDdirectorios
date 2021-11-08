@@ -9,9 +9,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class EstudianteOutputDto {
     //Long id;
-    Integer id;
+    /*Integer*/String id;
     //Long id_persona;
-    Integer id_persona;
+    String id_persona;
     Long num_hours_week;
     String comments;
     String branch;

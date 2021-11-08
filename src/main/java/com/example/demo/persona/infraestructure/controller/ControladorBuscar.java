@@ -18,12 +18,12 @@ public class ControladorBuscar {
 
 
     @GetMapping("/nombre/{id}")
-    public List<PersonaOutputDto> mostrarPorNombre2(@PathVariable Integer id){
+    public List<PersonaOutputDto> mostrarPorNombre2(@PathVariable String id){
             return personaService.mostrarPorNombreOutput(id);
     }
 
     @GetMapping("/{id}")
-    public PersonaOutputDto retorna(@PathVariable Integer id, @RequestParam(value = "outputType",defaultValue = "simple") String itemid) {
+    public PersonaOutputDto retorna(@PathVariable String id, @RequestParam(value = "outputType",defaultValue = "simple") String itemid) {
         if(itemid.equals("simple"))
             return personaService.retornaPorIdOutput(id);
         else if(itemid.equals("full"))

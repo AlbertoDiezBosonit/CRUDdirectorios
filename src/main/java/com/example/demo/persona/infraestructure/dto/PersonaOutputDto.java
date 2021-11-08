@@ -15,7 +15,7 @@ public class PersonaOutputDto {
     // clase DTO para el tipo persona
 
     //Long id;
-    Integer id;
+    String id;
     String user ;
     String password ;
     String name ;
