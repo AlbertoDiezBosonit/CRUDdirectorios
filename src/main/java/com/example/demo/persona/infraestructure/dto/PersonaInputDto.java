@@ -21,6 +21,24 @@ public class PersonaInputDto {
     String imagen_url;
     Date termination_date;
     Date created_date;
+    String active;
+
+    public String toString(){
+        if(user==null) user="";
+        if(password==null) password="";
+        if(name==null) name="";
+        if(surname==null) surname="";
+        if(company_email==null) company_email="";
+        if(city==null) city="";
+        if(imagen_url==null) imagen_url="";
+        if(created_date==null) created_date=new java.sql.Date(new java.util.Date().getTime());
+        if(active==null) active="";
+        return "user: "+user+" password: "+password+" surname: "+surname+
+                " company_email: "+company_email+" personal_email: "+personal_email+
+                " city: "+city+" imagen_url: "+imagen_url+" termination_date: "+
+                /*termination_date.toString()+*/" created_date: "+created_date.toString()+
+                " active: "+active;
+    }
 
     public PersonaInputDto(Persona p){
         if(p!=null){
@@ -34,6 +52,7 @@ public class PersonaInputDto {
             this.setImagen_url(p.getImagen_url());
             this.setTermination_date(p.getTermination_date());
             this.setCreated_date(p.getCreated_date());
+            this.setActive(p.getActive());
         }
     }
 
@@ -49,6 +68,7 @@ public class PersonaInputDto {
         p.setImagen_url(this.getImagen_url());
         p.setTermination_date(this.getTermination_date());
         p.setCreated_date(this.getCreated_date());
+        p.setActive(this.getActive());
         return p;
     }
 
@@ -76,7 +96,11 @@ public class PersonaInputDto {
             p.setTermination_date(this.getTermination_date());
         if(this.getCreated_date()!=null)
             p.setCreated_date(this.getCreated_date());
+        if(this.getActive()!=null)
+            p.setActive(this.getActive());
         return p;
     }
+
+
 
 }

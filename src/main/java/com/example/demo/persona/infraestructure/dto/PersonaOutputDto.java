@@ -25,6 +25,8 @@ public class PersonaOutputDto {
     String city;
     String imagen_url;
     Date termination_date;
+    Date created_date;
+    String active;
 
     public PersonaOutputDto(Persona p){
         if(p!=null) {
@@ -39,6 +41,8 @@ public class PersonaOutputDto {
             this.setCity(p.getCity());
             this.setImagen_url(p.getImagen_url());
             this.setTermination_date(p.getTermination_date());
+            this.setCreated_date(p.getCreated_date());
+            this.setActive(p.getActive());
         }
     }
 
@@ -55,6 +59,8 @@ public class PersonaOutputDto {
         p.setCity(this.getCity());
         p.setImagen_url(this.getImagen_url());
         p.setTermination_date(this.getTermination_date());
+        p.setCreated_date(this.getCreated_date());
+        p.setActive(this.getActive());
         return p;
     }
 
@@ -72,6 +78,8 @@ public class PersonaOutputDto {
         p.setCity(this.getCity());
         p.setImagen_url(this.getImagen_url());
         p.setTermination_date(this.getTermination_date());
+        p.setCreated_date(this.getCreated_date());
+        p.setActive(this.getActive());
         return p;
     }
 

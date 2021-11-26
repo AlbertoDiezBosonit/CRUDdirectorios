@@ -54,10 +54,14 @@ public class PersonaServicePortImpl implements PersonaServicePort {
     @Override
     public PersonaOutputDto insertaPersona(PersonaInputDto pi) {
         // vamos a insertar el activo y la fecha actual como fecha de alta
+       // pi.setActive("activo");
+        //pi.setCreated_date(new java.sql.Date(new java.util.Date().getTime()));
         Persona p=pi.toPersona();
         p.setActive("activo");
         p.setCreated_date(new java.sql.Date(new java.util.Date().getTime()));
+        //System.out.println(pi.toString());
         if(validaPersona(p)) {
+            //System.out.println(pi.toString());
             personaRepositoryPort.save(p);
             return new PersonaOutputDto(p);
         }

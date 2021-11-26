@@ -21,6 +21,7 @@ public class ControladorInsertar {
     @PostMapping(value="/addPersona")
     @Transactional(rollbackOn = Exception.class)
     public PersonaOutputDto addPersona( @RequestBody PersonaInputDto persona ) throws Exception {
+        System.out.println(persona.toString());
         return personaService.insertaPersona(persona);
         // se lanza exception si no se puede insertar
     }
